@@ -1,0 +1,101 @@
+﻿
+@model PagedList.IPagedList<MyApp.Application.ViewModels.AssetViewModel>   
+
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+   
+    Layout = "~/Views/Shared/Layout_AreaAdmin.cshtml";
+}
+
+<div class="site-section bg-light table-responsive-sm">
+    <div class="container">
+        <h2>Index</h2>
+
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        @using (Html.BeginForm())
+        {
+            <p>
+                Find by name: @Html.TextBox("SearchString", ViewBag.searchString as string)
+                <input type="submit" value="Search" />
+            </p>
+        }
+        <table class="table table-dark table-striped">
+            <tr>
+                <th>
+
+                    @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm , searchString = ViewBag.searchString })
+                   
+                </th>
+                @*<th class="hidden">
+                    @Html.DisplayNameFor(model => model.Url)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ThumbnailUrl)
+                </th>*@
+                <th>
+                    @*@Html.DisplayNameFor(model => model.Description)*@
+                    Description
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.DateEncoded)*@
+
+                    @Html.ActionLink("Encoded Date", "Index", new { sortOrder = ViewBag.DateSortParm  , searchString = ViewBag.searchString })
+             
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.MimeTypeID)*@
+                    MimeTypeID
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    @*<td >
+                        <a href=" @Html.DisplayFor(modelItem => item.Url)"> @Html.DisplayFor(modelItem => item.Url)</a>
+
+                    </td>
+                    <td>
+
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateEncoded)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MimeType)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.AssetID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.AssetID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.AssetID })
+                        @Html.ActionLink("AllDetails", "ALLDetails", new { id = item.AssetID })
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <br />
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount)
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+
+         new { page, sortOrder = ViewBag.CurrentSort, searchString = ViewBag.searchString })) 
+
+
+            
+
+    </div>
+</div>

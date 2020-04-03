@@ -1,0 +1,39 @@
+﻿@model MyApp.Infrastructure.DB.MimeType
+
+@{
+    ViewBag.Title = "Details";
+     
+       Layout = "~/Views/Shared/Layout_AreaAdmin.cshtml";
+}
+
+    <div class="site-section bg-light">
+        <div class="container">
+            <h2>Details</h2>
+
+            <div>
+                <h4>MimeType</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Mime)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Mime)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.AssetType.TypeLabel) 
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.AssetType.TypeLabel)
+                    </dd>
+
+                </dl>
+            </div>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.MimeTypeID }) |
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+</div></div>

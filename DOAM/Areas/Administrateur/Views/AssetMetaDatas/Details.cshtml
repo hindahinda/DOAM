@@ -1,0 +1,48 @@
+﻿@model MyApp.Application.ViewModels.AssetMetaDataViewModel
+
+@{
+    ViewBag.Title = "Details";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/Layout_AreaAdmin.cshtml";
+}
+
+<div class="site-section bg-light" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/pricing-table7.jpg')">
+    <div class="container">
+        <h2>Details</h2>
+
+        <div>
+            <h4>AssetMetaData</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Value)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Value)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.NameAsset)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.NameAsset)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.MetaDataTitle)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.MetaDataTitle)
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.AssetMetaDataID }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
+</div>

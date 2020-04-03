@@ -1,0 +1,79 @@
+﻿@model MyApp.Application.ViewModels.AssetViewModel
+
+@{
+    ViewBag.Title = "Delete";
+     //Layout = "~/Views/Shared/_Layout.cshtml";
+       Layout = "~/Views/Shared/Layout_AreaAdmin.cshtml";
+}
+
+    <div class="site-section bg-light" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/pricing-table7.jpg')">
+        <div class="container">
+            <h2>Delete</h2>
+
+            <h3>Are you sure you want to delete this?</h3>
+            <div>
+                <h4>Asset</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Url)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Url)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ThumbnailUrl)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ThumbnailUrl)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DateEncoded)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.DateEncoded)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.MimeTypeID)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.MimeTypeID)
+                    </dd>
+
+                </dl>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Delete" class="btn btn-default" /> |
+                        @Html.ActionLink("Back to List", "Index")
+                    </div>
+                }
+            </div>
+</div>
+</div>

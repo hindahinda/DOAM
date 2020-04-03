@@ -1,0 +1,74 @@
+﻿@model PagedList.IPagedList<MyApp.Application.ViewModels.MetaDataViewModel> 
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" /> 
+
+@{
+    ViewBag.Title = "Index";
+     
+       Layout = "~/Views/Shared/Layout_AreaAdmin.cshtml";
+}
+    <div class="site-section bg-light table-responsive-sm">
+        <div class="container">
+
+            <h2>Index</h2>
+
+            <p>
+                @Html.ActionLink("Create New", "Create")
+            </p>
+            @using (Html.BeginForm())
+            {
+                <p>
+                    Find by name: @Html.TextBox("SearchString", ViewBag.searchString as string)
+                    <input type="submit" value="Search" />
+                </p>
+            }
+            <table class="table table-dark table-striped">
+                <tr>
+                    <th>
+
+                        @Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.NameSortParm, searchString = ViewBag.searchString })
+
+                        @*@Html.DisplayNameFor(model => model.Title)*@
+                    </th>
+                    <th>
+                        @*@Html.DisplayNameFor(model => model.Description)*@
+                        Description
+                    </th>
+                    <th>
+                        @*@Html.DisplayNameFor(model => model.GroupName)*@
+                        Groupe Name
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GroupName)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.MetaDataID }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.MetaDataID }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.MetaDataID })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            <br />
+            <br />
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+
+             new { page, sortOrder = ViewBag.CurrentSort, searchString = ViewBag.searchString }))
+        </div>
+    </div>

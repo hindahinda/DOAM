@@ -1,0 +1,40 @@
+﻿@model MyApp.Application.ViewModels.AssetTagViewModel
+
+@{
+    ViewBag.Title = "Details";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/Layout_AreaAdmin.cshtml";
+}
+
+<div class="site-section bg-light" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/pricing-table7.jpg')">
+    <div class="container">
+        <h2>Details</h2>
+
+        <div>
+            <h4>AssetTag</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.AssetName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.AssetName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.TagLabel)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.TagLabel)
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.AssetTagID }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
+</div>

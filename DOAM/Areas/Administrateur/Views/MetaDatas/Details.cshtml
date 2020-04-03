@@ -1,0 +1,47 @@
+﻿@model MyApp.Infrastructure.DB.MetaData
+
+@{
+    ViewBag.Title = "Details";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/Layout_AreaAdmin.cshtml";
+}
+
+    <div class="site-section bg-light" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/pricing-table7.jpg')">
+        <div class="container">
+            <h2>Details</h2>
+
+            <div>
+                <h4>MetaData</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.MetaDataGroup.GroupName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.MetaDataGroup.GroupName)
+                    </dd>
+
+                </dl>
+            </div>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.MetaDataID }) |
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+</div></div>

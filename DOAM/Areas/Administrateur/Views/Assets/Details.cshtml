@@ -1,0 +1,73 @@
+﻿@*@model MyApp.Infrastructure.DB.Asset*@
+@model MyApp.Application.ViewModels.AssetViewModel
+
+@{
+    ViewBag.Title = "Details";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+       Layout = "~/Views/Shared/Layout_AreaAdmin.cshtml";
+}
+
+<div class="site-section bg-light" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/pricing-table7.jpg')">
+    <div class="container">
+        <h2>Details</h2>
+
+        <div>
+            <h4>Asset</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Url)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Url)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ThumbnailUrl)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ThumbnailUrl)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateEncoded)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DateEncoded)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.MimeTypeID)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.MimeTypeID)
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.AssetID }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
+</div>
