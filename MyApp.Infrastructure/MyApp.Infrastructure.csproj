@@ -129,6 +129,8 @@
     <Compile Include="ElasticSearch\ElasticSearchConnectionSettings.cs" />
     <Compile Include="ElasticSearch\ElasticSearchServiceAgent\AssetSearchService.cs" />
     <Compile Include="ElasticSearch\IndexDocuments\AssetDocument.cs" />
+    <Compile Include="ElasticSearch\IndexDocuments\AssetMetaData.cs" />
+    <Compile Include="ElasticSearch\IndexDocuments\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

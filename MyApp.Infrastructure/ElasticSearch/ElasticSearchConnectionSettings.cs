@@ -10,7 +10,7 @@ namespace MyApp.Infrastructure.ElasticSearch
    public class ElasticSearchConnectionSettings
     {
         static string elasticAdress = "http://localhost:9200";
-        public static ElasticClient EsClient()
+        public static ElasticClient connection()
         {
             var nodes = new Uri(elasticAdress);
 

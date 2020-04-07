@@ -24,56 +24,59 @@
                         </div>
 
                         <div class="form-search-wrap" data-aos="fade-up" data-aos-delay="200">
+                            @using(Html.BeginForm("SearchAction", "Home", FormMethod.Post, new { @class= "form-horizantal" })) 
+                             {
                             <form method="post">
                                 <div class="row align-items-center">
                                     <div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
                                         <input type="text" class="form-control rounded" placeholder="What are you looking for?">
                                     </div>
-                                    <div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
-                                        <input type="text" class="form-control rounded" placeholder="Author">
-                                    </div>
-                                    <div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
-                                        <input type="text" class="form-control rounded" placeholder="The title ">
-                                    </div>
-                                    <div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
+                                    Find by name: @Html.TextBox("recherche", ViewBag.recherche as string)
+                                    @*<div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
+            <input type="text" class="form-control rounded" placeholder="Author">
+        </div>*@
+                                    @*<div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
+            <input type="text" class="form-control rounded" placeholder="The title ">
+        </div>*@
+                                    @*<div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
 
-                                        <input type="text" class="form-control rounded" placeholder="Album">
-                                    </div>
-                                    <div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
-                                        <div class="select-wrap">
-                                            <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                                            <select class="form-control rounded" name="" id="">
-                                                <option value="">All Types</option>
-                                                <option value="">Images</option>
-                                                <option value="">Videos</option>
-                                                <option value="">Audios &amp; Music</option>
-                                                <option value="">Streamers</option>
-                                                <option value="">Docs</option>
-                                                <option value="">Others</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
-                                        <div class="select-wrap">
-                                            <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                                            <select class="form-control rounded" name="" id="">
-                                                <option value="">All Categories</option>
-                                                <option value="">vacances</option>
-                                                <option value="">slows</option>
-                                                <option value="">ActionMovies</option>
-                                                <option value="">stories</option>
-                                                <option value="">moderne</option>
-                                                <option value="">Others</option>
-                                            </select>
-                                        </div>
-                                    </div>
+            <input type="text" class="form-control rounded" placeholder="Album">
+        </div>*@
+                                    @*<div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
+            <div class="select-wrap">
+                <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
+                <select class="form-control rounded" name="" id="">
+                    <option value="">All Types</option>
+                    <option value="">Images</option>
+                    <option value="">Videos</option>
+                    <option value="">Audios &amp; Music</option>
+                    <option value="">Streamers</option>
+                    <option value="">Docs</option>
+                    <option value="">Others</option>
+                </select>
+            </div>
+        </div>*@
+                                    @*<div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
+            <div class="select-wrap">
+                <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
+                <select class="form-control rounded" name="" id="">
+                    <option value="">All Categories</option>
+                    <option value="">vacances</option>
+                    <option value="">slows</option>
+                    <option value="">ActionMovies</option>
+                    <option value="">stories</option>
+                    <option value="">moderne</option>
+                    <option value="">Others</option>
+                </select>
+            </div>
+        </div>*@
                                     <div class="col-lg-12 col-xl-2 ml-auto text-right">
                                         <input type="submit" class="btn btn-primary btn-block rounded" value="Search">
                                     </div>
 
-                                </div>
+                                </div><input type="submit" value="Search" />
                             </form>
-
+                          } 
                         </div>
 
                     </div>

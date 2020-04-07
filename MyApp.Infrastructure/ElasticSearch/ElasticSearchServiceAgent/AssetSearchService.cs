@@ -9,11 +9,11 @@ namespace MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent
 {
     public class AssetSearchService
     {
-        const string assetIndexName = "jeanpierre_asset_index";
+       public const string assetIndexName = "jeanpierre_asset_index";
         public static void CreateIndex()
         {
 
-            var connectionToEs = ElasticSearchConnectionSettings.EsClient();
+            var connectionToEs = ElasticSearchConnectionSettings.connection();
             if (connectionToEs.IndexExists(assetIndexName).Exists)
             {
                 var response = connectionToEs.DeleteIndex(assetIndexName);
@@ -31,18 +31,34 @@ namespace MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent
 
                         AssetID = asset.AssetID,
                         Name = asset.Name,
+                        Url= asset.Url,
                         Description = asset.Description,
+                        
                     };
 
-                    var assetMetadata = asset.AssetMetaDatas.Select(t => t.Asset).Distinct();
-                    //foreach (var assets in assetMetadata)
-                    //{
-                    //    assetDocument.AssetMetadatas.Add(new IndexDocuments.AssetDocument()
-                    //    {
-                           
-                           
-                    //    });
-                    //}
+                    var assetMetadata = asset.AssetMetaDatas.Select(t => t).Distinct();
+                    foreach (var assets in assetMetadata)
+                    {
+                        assetDocument.AssetMetadatas.Add(new IndexDocuments.AssetMetaData
+                        {
+                            AssetMetaDataID = assets.AssetMetaDataID,
+                            AssetName= assets.MetaData.Title,
+                            Value = assets.Value,
+
+                        }) ;
+                    }
+
+                    var assetTag = asset.AssetTags.Select(t => t.Tag).Distinct();
+                    foreach (var assetTags in assetTag)
+                    {
+                        assetDocument.Tags.Add(new IndexDocuments.Tag
+                        {
+                           TagID= assetTags.TagID,
+                           Label = assetTags.Label,
+
+                        });
+                    }
+
                     var indexResponse = connectionToEs.Index(assetDocument, c => c.Index(assetIndexName));
 
                 }
