@@ -30,8 +30,10 @@ namespace MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent
                     {
 
                         AssetID = asset.AssetID,
+                        TypeAssetName=GetNameAssetParTypeId(asset.AssetID),
                         Name = asset.Name,
                         Url= asset.Url,
+                        ThumbnailUrl= asset.ThumbnailUrl,
                         Description = asset.Description,
                         
                     };
@@ -63,6 +65,30 @@ namespace MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent
 
                 }
             }
+        }
+        private static string GetNameAssetParTypeId(int AssetID)
+        {
+
+            using (Infrastructure.DB.DOAMEntities db = new Infrastructure.DB.DOAMEntities())
+            {
+                string typeName = "";
+                var name = from asset in db.Assets
+                            join mime in db.MimeTypes
+                              on asset.MimeTypeID equals mime.MimeTypeID
+                            join tpye in db.AssetTypes
+                              on mime.AssetTypeID equals tpye.AssetTypeID
+                            where asset.AssetID == AssetID
+
+                            select new { tpye.TypeLabel };
+
+                foreach (var typeAsset in name)
+                {
+
+                    typeName = typeAsset.TypeLabel;
+                }
+                return typeName;
+            }
+
         }
     }
 }

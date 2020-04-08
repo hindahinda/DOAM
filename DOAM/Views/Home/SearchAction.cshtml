@@ -1,11 +1,12 @@
-﻿@model IEnumerable<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
+﻿@model PagedList.IPagedList<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "SearchAction";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>SearhAction</h2>
+@*<h2>SearhAction</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -49,4 +50,51 @@
     </tr>
 }
 
-</table>
+</table>*@
+
+<div class="site-section bg-light">
+
+    <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-7 text-left border-primary">
+                <h2 class="font-weight-light text-primary">New releases</h2>
+            </div>
+        </div>
+        <div class="row mt-5">
+            @foreach (var item in Model)
+            {
+                //if ((item.DateEncoded > (DateTime.Today.AddDays(-40))) && (item.DateEncoded < DateTime.Now))
+                //{
+                    <div class="col-lg-6">
+
+                        <div class="d-block d-md-flex listing">
+                            <a href="@Html.DisplayFor(modelItem => item.Url)" class="img d-block" style="background-image: url('@Html.DisplayFor(modelItem => item.ThumbnailUrl)')"></a>
+                            <div class="lh-content">
+                                <span class="category">@Html.DisplayFor(modelItem => item.AssetID)</span>
+                                <a href="#" class="bookmark"><span>@Html.DisplayFor(modelItem => item.TypeAssetName)</span></a>
+                                <h3><a href="@Html.DisplayFor(modelItem => item.Url)">@Html.DisplayFor(modelItem => item.Name)</a></h3>
+                                <address>Location, Non-définit</address>
+                                <p class="mb-0">
+                                    <span class="icon-star text-warning"></span>
+                                    <span class="icon-star text-warning"></span>
+                                    <span class="icon-star text-warning"></span>
+                                    <span class="icon-star text-warning"></span>
+                                    <span class="icon-star text-secondary"></span>
+                                    <span class="review">(3 Reviews)</span>
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                //}
+            }
+
+        </div>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount)
+
+            @Html.PagedListPager(Model, page => Url.Action("SearchAction", "Home",
+
+                   new { page, recherche=ViewBag.recherche })) 
+    </div>
+</div>

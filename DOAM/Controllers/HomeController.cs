@@ -47,12 +47,12 @@ namespace DOAM.Controllers
             }
             return View(asset);
         }
-        [HttpPost]
-        public ActionResult SearchAction(string recherche /*, string categorie*/) 
+        //[HttpPost]
+        public ActionResult SearchAction(string recherche , string categorie, int? page) 
         {
             var datasearch = new List<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>(); 
             
-            if (recherche == "" /*&& categorie == ""*/)
+            if (recherche == "" && categorie == "")
             {
                 //TempData["msg"] = "<script>alert('Provide Details to Search !');</script>";    
                 return View("Index");
@@ -60,32 +60,38 @@ namespace DOAM.Controllers
            
             else
             {
+               
                 ViewBag.recherche = recherche;
+                ViewBag.categorie = categorie;
                 var connectionToEs = ElasticSearchConnectionSettings.connection();
 
                 var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
                     (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
-                           .Size(10)
+                           .Size(50)
                            .Query(q => q.MultiMatch(m => m
-                                                    .Query(recherche)
+                                                    .Query(recherche))
 
 
-                          //&& q.Match(m => m
-                          //    .Field(f => f.)
-                          //    .Query(categorie)
-                          )
+                          && q.MultiMatch(m => m
+                              
+                              .Query(categorie))
+                          
                        )
                     );
 
                 datasearch = (from hits in reponse.Hits
                             select hits.Source).ToList();
+               
+
+                int pageSize = 6;
+                int pageNumber = (page ?? 1);
 
                 if (!datasearch.Any())    //on verifie si la listet est vide et on retourne: data non trouvé
                 {
                     return View("DataNotFound");
                 }
 
-                else return View(datasearch);
+                else return View(datasearch.ToList().ToPagedList(pageNumber, pageSize));
 
             }
         }

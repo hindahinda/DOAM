@@ -13,14 +13,23 @@ namespace MyApp.Infrastructure.ElasticSearch.IndexDocuments
         [Keyword(Name = nameof(AssetID))]
         public int AssetID { get; set; }
 
-        [Text(Name = nameof(Name))]
+       // [Text(Analyzer = "autocomplete", Name = nameof(TypeAssetName))]
+        [Text(Name = nameof(TypeAssetName))]
+        public string TypeAssetName { get; set; }
+       
+        //[Text(Analyzer = "autocomplete", Name = nameof(Name))]
+        [Text(Name = nameof(Name))]      
         public string Name { get; set; }
 
         [Text(Name = nameof(Url))]
         public string Url { get; set; }
+       
+        [Text(Name= nameof(ThumbnailUrl))] 
+        public string ThumbnailUrl { get; set; }
 
+       // [Text(Analyzer = "autocomplete", Name = nameof(Description))]
         [Text(Name = nameof(Description))]
-        public string Description { get; set; }
+        public string Description { get; set; } 
       
         
         //[Text(Name = nameof(MetaDataID))]

@@ -29,9 +29,11 @@
                             <form method="post">
                                 <div class="row align-items-center">
                                     <div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
-                                        <input type="text" class="form-control rounded" placeholder="What are you looking for?">
+                                        <input type="text" class="form-control rounded" placeholder="@Html.TextBox("recherche", ViewBag.recherche as string)">
                                     </div>
-                                    Find by name: @Html.TextBox("recherche", ViewBag.recherche as string)
+                                    <div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
+                                        Find by categorie: @Html.TextBox("recherche", ViewBag.categorie as string)
+                                    </div>
                                     @*<div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
             <input type="text" class="form-control rounded" placeholder="Author">
         </div>*@
@@ -42,20 +44,22 @@
 
             <input type="text" class="form-control rounded" placeholder="Album">
         </div>*@
-                                    @*<div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
-            <div class="select-wrap">
-                <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                <select class="form-control rounded" name="" id="">
-                    <option value="">All Types</option>
-                    <option value="">Images</option>
-                    <option value="">Videos</option>
-                    <option value="">Audios &amp; Music</option>
-                    <option value="">Streamers</option>
-                    <option value="">Docs</option>
-                    <option value="">Others</option>
-                </select>
-            </div>
-        </div>*@
+
+                                    <div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
+                                        Find by selection   
+                                        <div class="select-wrap">
+                                            <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
+                                            <select class="form-control rounded" name="" id="">
+                                                <option value="">All Types</option>
+                                                <option value=" @Html.TextBox("recherche", ViewBag.categorie as string)">Images</option>
+                                                <option value="">Videos</option>
+                                                <option value="">Audios &amp; Music</option>
+                                                <option value="">Streamers</option>
+                                                <option value="">Docs</option>
+                                                <option value="">Others</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     @*<div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
             <div class="select-wrap">
                 <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
@@ -164,7 +168,7 @@
                         if (item.TypeAssetName == "Video")
                         {
                             <div class="d-block d-md-flex listing vertical">
-                                <a href="@Html.DisplayFor(modelItem => item.Url)" class="img d-block" style="background-image: url('images/img_1.jpg')"></a>
+                                <a href="@Html.DisplayFor(modelItem => item.Url)" class="img d-block" style="background-image: url('@Html.DisplayFor(modelItem => item.ThumbnailUrl)')"></a>
                                 <div class="lh-content">
                                     <span class="category">@Html.DisplayFor(modelItem => item.TypeAssetName)</span>
                                     <a href="#" class="bookmark"><span class="icon-heart"></span></a>
@@ -205,7 +209,7 @@
                         if (item.TypeAssetName == "Audio")
                         {
                             <div class="d-block d-md-flex listing vertical">
-                                <a href="@Html.DisplayFor(modelItem => item.Url)" class="img d-block" style="background-image: url('images/img_1.jpg')"></a>
+                                <a href="@Html.DisplayFor(modelItem => item.Url)" class="img d-block" style="background-image: url('@Html.DisplayFor(modelItem => item.ThumbnailUrl)')"></a>
                                 <div class="lh-content">
                                     <span class="category">@Html.DisplayFor(modelItem => item.TypeAssetName)</span>
                                     <a href="#" class="bookmark"><span class="icon-heart"></span></a>
@@ -245,7 +249,7 @@
                         if (item.TypeAssetName == "Image")
                         {
                             <div class="d-block d-md-flex listing vertical">
-                                <a href="@Html.DisplayFor(modelItem => item.Url)" class="img d-block" style="background-image: url('images/img_1.jpg')"></a>
+                                <a href="@Html.DisplayFor(modelItem => item.Url)" class="img d-block" style="background-image: url('@Html.DisplayFor(modelItem => item.ThumbnailUrl)')"></a>
                                 <div class="lh-content">
                                     <span class="category">@Html.DisplayFor(modelItem => item.TypeAssetName)</span>
                                     <a href="#" class="bookmark"><span class="icon-heart"></span></a>
@@ -285,7 +289,7 @@
                         if (item.TypeAssetName == "Streamer")
                         {
                             <div class="d-block d-md-flex listing vertical">
-                                <a href="@Html.DisplayFor(modelItem => item.Url)" class="img d-block" style="background-image: url('images/img_1.jpg')"></a>
+                                <a href="@Html.DisplayFor(modelItem => item.Url)" class="img d-block" style="background-image: url('@Html.DisplayFor(modelItem => item.ThumbnailUrl)')"></a>
                                 <div class="lh-content">
                                     <span class="category">@Html.DisplayFor(modelItem => item.TypeAssetName)</span>
                                     <a href="#" class="bookmark"><span class="icon-heart"></span></a>
@@ -330,7 +334,7 @@
 
                         <div class="listing-item">
                             <div class="listing-image">
-                                <img src="images/img_1.jpg" alt="Image" class="img-fluid">
+                                <img src="@Html.DisplayFor(modelItem => item.ThumbnailUrl)" alt="Image" class="img-fluid">
                             </div>
                             <div class="listing-item-content">
                                 <a href="@Html.DisplayFor(modelItem => item.Url)" class="bookmark" data-toggle="tooltip" data-placement="left" title="Bookmark"><span class="icon-heart"></span></a>
@@ -365,7 +369,7 @@
                     <div class="col-lg-6">
 
                         <div class="d-block d-md-flex listing">
-                            <a href="@Html.DisplayFor(modelItem => item.Url)" class="img d-block" style="background-image: url('images/img_2.jpg')"></a>
+                            <a href="@Html.DisplayFor(modelItem => item.Url)" class="img d-block" style="background-image: url('@Html.DisplayFor(modelItem => item.ThumbnailUrl)')"></a>
                             <div class="lh-content">
                                 <span class="category">@Html.DisplayFor(modelItem => item.TypeAssetName)</span>
                                 <a href="#" class="bookmark"><span class="icon-heart"></span></a>
