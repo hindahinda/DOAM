@@ -28,6 +28,7 @@ namespace MyApp.Infrastructure.DB
         public string Description { get; set; }
         public Nullable<System.DateTime> DateEncoded { get; set; }
         public Nullable<int> MimeTypeID { get; set; }
+        public Nullable<int> Compteur { get; set; }
     
         public virtual MimeType MimeType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -12,6 +12,8 @@ namespace MyApp.Infrastructure.DB
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class DOAMEntities : DbContext
     {
@@ -39,5 +41,14 @@ namespace MyApp.Infrastructure.DB
         public virtual DbSet<MimeType> MimeTypes { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
+    
+        public virtual int SP_UpDateAssetCompteur(Nullable<int> assetID)
+        {
+            var assetIDParameter = assetID.HasValue ?
+                new ObjectParameter("assetID", assetID) :
+                new ObjectParameter("assetID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpDateAssetCompteur", assetIDParameter);
+        }
     }
 }

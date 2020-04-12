@@ -36,7 +36,7 @@ namespace DOAM.Areas.Administrateur.Controllers
                 assetsMetaData = MyApp.Application.Services.AssetMetaDataControllerService.GetAssetMetaDataByLabelSearch(searchString);
 
             }
-            int pageSize = 5;
+            int pageSize = 15;
             int pageNumber = (page ?? 1);
             return View(assetsMetaData.ToList().ToPagedList(pageNumber, pageSize));
            

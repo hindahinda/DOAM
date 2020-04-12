@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DOAMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DOAMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -67,6 +67,7 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="DateEncoded" Type="datetime" />
           <Property Name="MimeTypeID" Type="int" />
+          <Property Name="Compteur" Type="int" />
         </EntityType>
         <EntityType Name="AssetMetaData">
           <Key>
@@ -307,6 +308,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_UpDateAssetCompteur" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="assetID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="DOAMModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -376,8 +380,7 @@
             <End Role="MimeType" EntitySet="MimeType" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DOAMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -444,6 +447,7 @@
           <NavigationProperty Name="MimeType" Relationship="Self.FK_Asset_MimeType" FromRole="Asset" ToRole="MimeType" />
           <NavigationProperty Name="AssetMetaDatas" Relationship="Self.FK_AssetMetaData_Asset" FromRole="Asset" ToRole="AssetMetaData" />
           <NavigationProperty Name="AssetTags" Relationship="Self.FK_AssetTag_Asset" FromRole="Asset" ToRole="AssetTag" />
+          <Property Name="Compteur" Type="Int32" />
         </EntityType>
         <EntityType Name="AssetMetaData">
           <Key>
@@ -738,6 +742,9 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <FunctionImport Name="SP_UpDateAssetCompteur">
+            <Parameter Name="assetID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -793,6 +800,7 @@
           <EntitySetMapping Name="Assets">
             <EntityTypeMapping TypeName="DOAMModel.Asset">
               <MappingFragment StoreEntitySet="Asset">
+                <ScalarProperty Name="Compteur" ColumnName="Compteur" />
                 <ScalarProperty Name="AssetID" ColumnName="AssetID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Url" ColumnName="Url" />
@@ -895,6 +903,7 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="SP_UpDateAssetCompteur" FunctionName="DOAMModel.Store.SP_UpDateAssetCompteur" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

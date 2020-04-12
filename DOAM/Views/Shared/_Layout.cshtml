@@ -53,7 +53,7 @@
                     <nav class="site-navigation position-relative text-right" role="navigation">
                         <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
 
-                                                    
+
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
 
 
@@ -66,14 +66,14 @@
                                     <li><a href="#">Careers</a></li>
                                 </ul>
                             </li>
-                          
+
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
 
                             @if (User.IsInRole("Admin"))
-                            { 
-                                <li >
+                            {
+                                <li>
 
-                                    @Html.ActionLink("Admin Area", "Index", "Admin", new { area = "Administrateur" }, null)                                 
+                                    @Html.ActionLink("Admin Area", "Index", "Admin", new { area = "Administrateur" }, null)
                                 </li>
                             }
                             <li> @Html.Partial("_LoginPartial") </li>
@@ -180,6 +180,7 @@
     <script src="js/aos.js"></script>
     <script src="js/rangeslider.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     @*@Scripts.Render("~/bundles/jqueryothers")
         @Scripts.Render("~/bundles/popper")

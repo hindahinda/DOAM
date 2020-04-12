@@ -19,6 +19,8 @@ namespace MyApp.Application.ViewModels
         public string MimeType { get; set; }  
         public int TotalAssets { get; set; }
         public string TypeAssetName { get; set; }
+
+        public int Compteur { get; set; }
         public List<Asset> Assets { get; set; }
 
         public int CurrentPageIndex { get; set; }

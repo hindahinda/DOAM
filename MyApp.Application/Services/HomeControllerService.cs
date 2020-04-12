@@ -30,6 +30,11 @@ namespace MyApp.Application.Services
                     TotalImages = Domain.Services.HomeService.GetTotalAssetParTypeId(3),
                     TotalStreamers = Domain.Services.HomeService.GetTotalAssetParTypeId(4),
                     TotalOtherRessources = Domain.Services.HomeService.GetTotalAssetParTypeId(5),
+                    MimeTypeID = asset.MimeTypeID, 
+                    MimeType = MyApp.Domain.Services.MimeTypeService.GetMimeTypeName(asset.MimeTypeID),
+                    Compteur=asset.Compteur,
+                    Description= asset.Description
+
 
                 };
                
@@ -53,6 +58,26 @@ namespace MyApp.Application.Services
             };
 
             return vm;
+        }
+        public static IEnumerable<ViewModels.HomeViewModels> ListeAssetName() 
+        {
+
+            List<ViewModels.HomeViewModels> AssetListe = new List<ViewModels.HomeViewModels>();
+            var assets = Domain.Services.AssetTypeService.GetAssetTypes();
+
+            foreach (var asset in assets)
+            {
+                ViewModels.HomeViewModels vm = new ViewModels.HomeViewModels()
+                {
+                    TypeAssetName = asset.TypeLabel,
+
+                };
+
+                AssetListe.Add(vm);
+
+            }
+
+            return AssetListe;
         }
     }
 }

@@ -17,6 +17,8 @@ namespace JobConsole
             Console.WriteLine(string.Format("Total des Autres ressource : {0} ", MyApp.Domain.Services.AssetService.GetTotalAssetParTypeId(5)));
             Console.WriteLine(string.Format("Total des Assets : {0} ", MyApp.Domain.Services.AssetService.GetTotalAssets()));
             Console.WriteLine(string.Format("Type of Asset : {0} ", MyApp.Domain.Services.AssetService.GetNameAssetParTypeId(40)));
+
+            MyApp.Domain.Services.HomeService.UpDateAssetCompteur(1);
             //execution pour elastic search service methods
 
             MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.CreateIndex(); 

@@ -11,7 +11,7 @@ namespace MyApp.Application.Services
     {
 
         
-        public static List<ViewModels.AssetDetailsViewModel> GetAllDetailsAssets(int AssetId)
+        public static IEnumerable<ViewModels.AssetDetailsViewModel> GetAllDetailsAssets(int AssetId)
         {
            // ViewModels.AssetDetailsViewModel vm = new ViewModels.AssetDetailsViewModel();
             List<ViewModels.AssetDetailsViewModel> AssetListe = new List<ViewModels.AssetDetailsViewModel>();
@@ -29,7 +29,9 @@ namespace MyApp.Application.Services
                                   metaGroup.MetaDataGroupID,
                                   metaGroup.GroupName,
                                   metaData.Title,
-                                  assetMetaData.Value
+                                  assetMetaData.Value,
+                                  assetMetaData.AssetID,
+                                  assetMetaData.MetaDataID
                               });
 
                 foreach (var totalcomp in details)
@@ -40,6 +42,8 @@ namespace MyApp.Application.Services
                     MetaGroupName = totalcomp.GroupName,
                     MetaDataTitle = totalcomp.Title,
                     AssetMetaDataValue = totalcomp.Value,
+                    AssetID=totalcomp.AssetID,
+                    MetaDataID=totalcomp.MetaDataID
                     };
                     AssetListe.Add(vm);
                 

@@ -1,27 +1,27 @@
-﻿@model IEnumerable<MyApp.Application.ViewModels.AssetDetailsViewModel>
-
+﻿@model IEnumerable<MyApp.Application.ViewModels.AssetDetailsViewModel> 
+@*@model MyApp.Application.ViewModels.AssetDetailsViewModel*@
 @{
     ViewBag.Title = "ALLDetails";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
 }
-    <div class="site-section bg-light  table-responsive-sm" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/pricing-table7.jpg')" >
-        <div class="container">
-            <h2>ALLDetails</h2>
+    <div class="site-section bg-light  table-responsive-sm" style="background-image: url('../../../../images/hero_2.jpg')">
+        <div class="container" style=" width:550px;">
+
 
             <p>
                 @Html.ActionLink("Add new MetaData", "Create", "AssetMetaDatas")
             </p>
 
-            <table class="table table-dark table-striped">
+            <table class="table d-table-row table-dark table-responsive" style=" width:549px;">
 
-
+                <thead>Identification </thead>
                 @foreach (var item in Model)
                 {
 
 
                     if (item.MetaDataGroupID == 3)
                     {
-                        <thead> @Html.DisplayFor(modelItem => item.MetaGroupName)</thead>
+
                         <tr>
                             <td>
                                 @Html.DisplayFor(modelItem => item.MetaDataTitle)
@@ -36,16 +36,16 @@
                 }
 
             </table>
-            <table class="table table-dark table-striped">
+            <table class="table d-table-row table-dark table-responsive">
 
-
+                <thead>Description</thead>
                 @foreach (var item in Model)
                 {
 
 
                     if (item.MetaDataGroupID == 2)
                     {
-                        <thead> @Html.DisplayFor(modelItem => item.MetaGroupName)</thead>
+
                         <tr>
                             <td>
                                 @Html.DisplayFor(modelItem => item.MetaDataTitle)
@@ -60,16 +60,16 @@
                 }
 
             </table>
-            <table class="table table-dark table-striped" >
+            <table class="table d-table-row table-dark table-responsive">
 
-
+                <thead>Technical </thead>
                 @foreach (var item in Model)
                 {
 
 
                     if (item.MetaDataGroupID == 1)
                     {
-                        <thead> @Html.DisplayFor(modelItem => item.MetaGroupName)</thead>
+
                         <tr>
                             <td>
                                 @Html.DisplayFor(modelItem => item.MetaDataTitle)
@@ -84,14 +84,6 @@
                 }
 
             </table>
-            <table>
-                <thead>
-                    @Html.ActionLink("Create New", "CreateMetaData","AssetMetaDatas")
-                    @*@Html.ActionLink("Edit", "Edit", new { id = item.AssetMetaDataID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.AssetMetaDataID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.AssetMetaDataID })*@
-                </thead>
-                
-            </table>
+           
         </div>
-    </div>
+</div>

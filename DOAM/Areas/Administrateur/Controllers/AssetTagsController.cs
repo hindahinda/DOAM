@@ -37,7 +37,7 @@ namespace DOAM.Areas.Administrateur.Controllers
                 assetTags = MyApp.Application.Services.AssetTagControllerService.SearchAssetTag(searchString);
 
             }
-            int pageSize = 5;
+            int pageSize = 15;
             int pageNumber = (page ?? 1);
             return View(assetTags.ToList().ToPagedList(pageNumber, pageSize));
 

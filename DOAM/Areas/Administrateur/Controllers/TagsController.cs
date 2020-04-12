@@ -41,7 +41,7 @@ namespace DOAM.Areas.Administrateur.Controllers
                 tags = MyApp.Application.Services.TagControllerService.GetTagByLabelSearch(searchString);
 
             }
-            int pageSize = 3; 
+            int pageSize = 10; 
             int pageNumber = (page ?? 1);
             return View(tags.ToList().ToPagedList(pageNumber, pageSize));
         }

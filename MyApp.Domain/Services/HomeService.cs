@@ -72,5 +72,13 @@ namespace MyApp.Domain.Services
             }
 
         }
+
+        public static void UpDateAssetCompteur(int AssetID)
+        {
+            using (Infrastructure.DB.DOAMEntities db = new Infrastructure.DB.DOAMEntities())
+            {
+                db.SP_UpDateAssetCompteur(AssetID);
+            }
+        }
     }
 }

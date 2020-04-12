@@ -79,6 +79,7 @@
     <Compile Include="Services\MetaDataControllerService.cs" />
     <Compile Include="Services\MetaDataGroupControllerServie.cs" />
     <Compile Include="Services\MimeTypeControllerService.cs" />
+    <Compile Include="Services\ServiceUsers\TableOfAssetDetailsControllerService.cs" />
     <Compile Include="Services\ServiceUsers\UserControllerService.cs" />
     <Compile Include="Services\TagControllerService.cs" />
     <Compile Include="Services\TotalAssetByTypeControllerService.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="ViewModels\MetaDataGroupViewModel.cs" />
     <Compile Include="ViewModels\MetaDataViewModel.cs" />
     <Compile Include="ViewModels\MimeTypeViewModel.cs" />
+    <Compile Include="ViewModels\TableOfAssetDetailsViewModel.cs" />
     <Compile Include="ViewModels\TagViewModel.cs" />
     <Compile Include="ViewModels\TotalAssetByTypeViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModels\UserViewModels.cs" />
