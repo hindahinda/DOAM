@@ -18,10 +18,10 @@
         </div>
         @using (Html.BeginForm())
         {
-            <p>
-                Find by name: @Html.TextBox("recherche", ViewBag.CurrentFilter as string)
+            @*<p>
+                Find by name: @Html.TextBox("recherche", ViewBag.recherche as string)
                 <input type="submit" value="Search" />
-            </p>
+            </p>*@
         }
         <div class="row mt-5">
             @foreach (var item in Model)
@@ -49,8 +49,8 @@
         </div>
         Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount)
 
-        @Html.PagedListPager(Model, page => Url.Action("SearchAction", "Home",
+        @Html.PagedListPager(Model, page => Url.Action("SearchAction2", "Home",
 
-               new { page, recherche = ViewBag.recherche }))
+               new { page , selectedCategorie = ViewBag.selectedCategorie}))
     </div>
 </div>

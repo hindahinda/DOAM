@@ -35,6 +35,7 @@ namespace MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent
                         Url= asset.Url,
                         ThumbnailUrl= asset.ThumbnailUrl,
                         Description = asset.Description,
+                        Compteur=asset.Compteur 
                         
                     };
 

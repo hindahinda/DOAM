@@ -29,21 +29,9 @@ namespace MyApp.Infrastructure.ElasticSearch.IndexDocuments
 
        // [Text(Analyzer = "autocomplete", Name = nameof(Description))]
         [Text(Name = nameof(Description))]
-        public string Description { get; set; } 
-      
-        
-        //[Text(Name = nameof(MetaDataID))]
-        //public int MetaDataID { get; set; }
-        
-        //[Text(Name = nameof(Value))]
-        //public string Value { get; set; }
-
-        //[Text(Name = nameof(TagID))]
-        //public int TagID { get; set; }
-
-        //[Text(Name = nameof(Label))]
-        //public string Label { get; set; }
-
+        public string Description { get; set; }
+        [Keyword(Name = nameof(Compteur))]
+        public Nullable<int> Compteur { get; set; } 
 
         [Nested(Name = nameof(AssetMetadatas), IncludeInRoot = true)]
         public List<AssetMetaData> AssetMetadatas { get; set; }

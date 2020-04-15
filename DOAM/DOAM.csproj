@@ -388,6 +388,7 @@
     <Content Include="Views\Home\ALLDetails.cshtml" />
     <Content Include="Views\Home\SearchAction.cshtml" />
     <Content Include="Views\Home\DataNotFound.cshtml" />
+    <Content Include="Views\Home\SearchAction2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
