@@ -20,7 +20,11 @@ namespace MyApp.Domain.Services
                 return(assets.ToList());
             }
         }
-
+        /// <summary>
+        /// Get asset by assetID
+        /// </summary>
+        /// <param name="AssetID"></param>
+        /// <returns> asset </returns>
         public static Infrastructure.DB.Asset GetAssetID(int? AssetID)
         {
             using (Infrastructure.DB.DOAMEntities db = new Infrastructure.DB.DOAMEntities())
@@ -30,7 +34,10 @@ namespace MyApp.Domain.Services
             }
         }
         
-
+        /// <summary>
+        /// ajouter un asset 
+        /// </summary>
+        /// <param name="asset"></param>
         public static void AddAsset(Infrastructure.DB.Asset asset)
         {
             using (Infrastructure.DB.DOAMEntities db = new Infrastructure.DB.DOAMEntities())
@@ -40,6 +47,10 @@ namespace MyApp.Domain.Services
             }
         }
 
+        /// <summary>
+        /// mettre à jour l'objet passe en paramétre
+        /// </summary>
+        /// <param name="asset"></param>
         public static void UpdateAsset(Infrastructure.DB.Asset asset)
         {
             using (Infrastructure.DB.DOAMEntities db = new Infrastructure.DB.DOAMEntities())
@@ -49,6 +60,10 @@ namespace MyApp.Domain.Services
             }
         }
 
+        /// <summary>
+        /// supprimer asset de l'id passe en parametre 
+        /// </summary>
+        /// <param name="AssetID"></param>
         public static void DeleteAsset(int AssetID)
         {
             using (Infrastructure.DB.DOAMEntities db = new Infrastructure.DB.DOAMEntities())
@@ -59,6 +74,10 @@ namespace MyApp.Domain.Services
             }
         }
 
+        /// <summary>
+        /// récuperer le nombre total des asssets
+        /// </summary>
+        /// <returns></returns>
         public static int GetTotalAssets()
         {
             using (Infrastructure.DB.DOAMEntities db = new Infrastructure.DB.DOAMEntities())
@@ -68,6 +87,11 @@ namespace MyApp.Domain.Services
             }
         }
 
+        /// <summary>
+        /// on fait la rechercher d'une chaine passe en paramétre
+        /// </summary>
+        /// <param name="searchString"></param>
+        /// <returns></returns>
         public static List<Infrastructure.DB.Asset> SearchAssetByName(string searchString)
         {
             using (Infrastructure.DB.DOAMEntities db = new Infrastructure.DB.DOAMEntities())
@@ -86,6 +110,11 @@ namespace MyApp.Domain.Services
             
         }
 
+        /// <summary>
+        /// effectuer le sorting des données
+        /// </summary>
+        /// <param name="sortOrder"></param>
+        /// <returns>une liste triés</returns>
         public static List<Infrastructure.DB.Asset> SortOrderAsset( string sortOrder)
         {
             using(Infrastructure.DB.DOAMEntities db= new Infrastructure.DB.DOAMEntities())
@@ -112,6 +141,11 @@ namespace MyApp.Domain.Services
             }
         }
 
+        /// <summary>
+        /// à partir de l'identifiant d'une asset on calcul le total
+        /// </summary>
+        /// <param name="AssetTypeID"></param>
+        /// <returns> le nombre total </returns>
         public static int GetTotalAssetParTypeId(int AssetTypeID)
         {
 
@@ -134,6 +168,11 @@ namespace MyApp.Domain.Services
 
         }
 
+        /// <summary>
+        /// on determine le type de l'asset dont l'identifian passe en paramétre
+        /// </summary>
+        /// <param name="AssetID"></param>
+        /// <returns> le nom de type de l'asset </returns>
         public static string GetNameAssetParTypeId(int AssetID)
         {
 
