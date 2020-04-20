@@ -27,59 +27,36 @@
                             {
                                 <form method="post">
                                     <div class="row align-items-center">
-                                        <div class="col-lg-12 mb-4 mb-xl-0 col-xl-4">
-                                            <p style="color:white"> Find by any word(s) </p>   @Html.TextBox("recherche", ViewBag.recherche as string)
-                                        </div>
-                                        <div class="col-lg-12 mb-4 mb-xl-0 col-xl-4">
-                                            <p style="color:white "> Find by categorie </p>  @Html.TextBox("categorie", ViewBag.categorie as string)
 
+                                        <div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
+                                            <input type="text" name="recherche" class="form-control rounded" placeholder="What are you looking for?">
                                         </div>
 
-                                        <div class="col-lg-12 mb-4 mb-xl-0 col-xl-4">
+                                        <div class="col-lg-12 mb-4 mb-xl-0 col-xl-2">
+                                            <div class="select-wrap">
+                                                <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
+                                                <select class="form-control rounded" name="categorie" id="">
+                                                    <option value="">All Types</option>
+                                                    <option value="Image">Image</option>
+                                                    <option value="Video">Video</option>
+                                                    <option value="Audio">Audio</option>
+                                                    <option value="Streamer">Streamers</option>
+                                                    <option value=">Docs">Docs</option>
+                                                    <option value="Others">Others</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-xl-2 ml-auto text-right">
                                             <input type="submit" class="btn btn-primary btn-block rounded" value="Search">
                                         </div>
 
-
                                     </div>
                                 </form>
                             }
 
                         </div>
-                        <br />
-                        <div class="form-search-wrap" data-aos="fade-up" data-aos-delay="200">
-                            @using (Html.BeginForm("SearchAction2", "Home", FormMethod.Post, new { @class = "form-horizantal" }))
-                            {
-
-                                <form method="post">
-                                    <div class="row align-items-center">
-                                        <div class="col-lg-12 mb-4 mb-xl-0 col-xl-8">
-                                            <fieldset>
-                                                <div class="col-lg-12 mb-4 mb-xl-0 col-xl-8">
-                                                <p style="color:white"> Select par Catégories </p><select name="selectCategorie" class="ui-widget-header">
-                                                        <option value=""></option>
-                                                        <option value="Audio">Audio</option>
-                                                        <option value="Video">Video</option>
-                                                        <option value="Image">Image</option>
-                                                        <option value="Streamers">Streamers</option>
-                                                        <option value="Documents">Documents</option>
-                                                    </select>
-                                                </div>
-                                                <br />
-                                                <div class="col-lg-12 mb-4 mb-xl-0 col-xl-4">
-
-                                                    <input type="submit" class="btn btn-primary btn-block rounded" value="Search">
-
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                </form>
-                            }
-
-                        </div>
-
                     </div>
-                  
+
                     <div>
 
                         <div class="overlap-category mb-5">
@@ -158,32 +135,32 @@
         <div class="row">
             <div class="col-12  block-13">
                 <div class="owl-carousel nonloop-block-13">
-               @foreach (var item in Model.OrderBy(model=>model.Name))
-                {
-                    if (item.TypeAssetName == "Video")
+                    @foreach (var item in Model.OrderBy(model => model.Name))
                     {
-                        <div class="d-block d-md-flex listing vertical">
-                            <div style="background-image: url('@Html.DisplayFor(modelItem => item.ThumbnailUrl)')" class = "img d-block">
-                            
-                                   @Html.ActionLink(".", "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url }, new { @class = "img d-block" })
-                            </div>
-        
-                            <div class="lh-content" style="background-color:aquamarine">
-                                <span class="category">@Html.DisplayFor(modelItem => item.TypeAssetName)</span>
-                                <a href="#" class="bookmark"><span class="icon-heart"></span></a>
-                                <h3><a> @Html.ActionLink(item.Name, "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url })</a></h3>
-                                
-                                <address> @Html.ActionLink("AllDetails", "ALLDetails", new { id = item.AssetID })</address>
-                                <button>@Html.ActionLink("Views et Votes", "UpDateOfCompteurAsset", new { id = item.AssetID }) </button>
-                           
+                        if (item.TypeAssetName == "Video")
+                        {
+                            <div class="d-block d-md-flex listing vertical">
+                                <div style="background-image: url('@Html.DisplayFor(modelItem => item.ThumbnailUrl)')" class="img d-block">
 
-                                <p>Total ( @Html.DisplayFor(modelItem => item.Compteur))</p>
-                                <p>Description:  @Html.DisplayFor(modelItem => item.Description)</p>
-                            </div>
+                                    @Html.ActionLink(".", "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url }, new { @class = "img d-block" })
+                                </div>
 
-                        </div>
+                                <div class="lh-content" style="background-color:aquamarine">
+                                    <span class="category">@Html.DisplayFor(modelItem => item.TypeAssetName)</span>
+                                    <a href="#" class="bookmark"><span class="icon-heart"></span></a>
+                                    <h3><a> @Html.ActionLink(item.Name, "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url })</a></h3>
+
+                                    <address> @Html.ActionLink("AllDetails", "ALLDetails", new { id = item.AssetID })</address>
+                                    <button>@Html.ActionLink("Views et Votes", "UpDateOfCompteurAsset", new { id = item.AssetID }) </button>
+
+
+                                    <p>Total ( @Html.DisplayFor(modelItem => item.Compteur))</p>
+                                    <p>Description:  @Html.DisplayFor(modelItem => item.Description)</p>
+                                </div>
+
+                            </div>
+                        }
                     }
-                }
 
                 </div>
             </div>
@@ -200,7 +177,7 @@
         <div class="row">
             <div class="col-12  block-13">
                 <div class="owl-carousel nonloop-block-13">
-                    @foreach (var item in Model.OrderBy(model=>model.Name))
+                    @foreach (var item in Model.OrderBy(model => model.Name))
                     {
                         if (item.TypeAssetName == "Audio")
                         {
@@ -214,7 +191,7 @@
                                     <span class="category">@Html.DisplayFor(modelItem => item.TypeAssetName)</span>
                                     <a href="#" class="bookmark"><span class="icon-heart"></span></a>
                                     <h3><a> @Html.ActionLink(item.Name, "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url })</a></h3>
-                                  
+
                                     <address> @Html.ActionLink("AllDetails", "ALLDetails", new { id = item.AssetID })</address>
                                     <button>@Html.ActionLink("Views et Votes", "UpDateOfCompteurAsset", new { id = item.AssetID }) </button>
 
@@ -241,11 +218,11 @@
         <div class="row">
             <div class="col-12  block-13">
                 <div class="owl-carousel nonloop-block-13">
-                    @foreach (var item in Model.OrderBy(model=>model.Name))
+                    @foreach (var item in Model.OrderBy(model => model.Name))
                     {
                         if (item.TypeAssetName == "Image")
                         {
-                             <div class="d-block d-md-flex listing vertical">
+                            <div class="d-block d-md-flex listing vertical">
                                 <div style="background-image: url('@Html.DisplayFor(modelItem => item.ThumbnailUrl)')" class="img d-block">
 
                                     @Html.ActionLink(".", "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url }, new { @class = "img d-block" })
@@ -254,14 +231,14 @@
                                     <span class="category">@Html.DisplayFor(modelItem => item.TypeAssetName)</span>
                                     <a href="#" class="bookmark"><span class="icon-heart"></span></a>
                                     <h3><a> @Html.ActionLink(item.Name, "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url })</a></h3>
-                                  
+
                                     <address> @Html.ActionLink("AllDetails", "ALLDetails", new { id = item.AssetID })</address>
                                     <button>@Html.ActionLink("Views et Votes", "UpDateOfCompteurAsset", new { id = item.AssetID }) </button>
                                     <p>Total ( @Html.DisplayFor(modelItem => item.Compteur))</p>
                                     <p>Description:  @Html.DisplayFor(modelItem => item.Description)</p>
                                 </div>
 
-                             </div>
+                            </div>
                         }
                     }
 
@@ -279,7 +256,7 @@
         <div class="row">
             <div class="col-12  block-13">
                 <div class="owl-carousel nonloop-block-13">
-                    @foreach (var item in Model.OrderBy(model=>model.Name))
+                    @foreach (var item in Model.OrderBy(model => model.Name))
                     {
                         if (item.TypeAssetName == "Streamer")
                         {
@@ -291,7 +268,44 @@
                                     <span class="category">@Html.DisplayFor(modelItem => item.TypeAssetName)</span>
                                     <a href="#" class="bookmark"><span class="icon-heart"></span></a>
                                     <h3><a> @Html.ActionLink(item.Name, "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url })</a></h3>
-                                   
+
+                                    <address> @Html.ActionLink("AllDetails", "ALLDetails", new { id = item.AssetID })</address>
+                                    <button>@Html.ActionLink("Views et Votes", "UpDateOfCompteurAsset", new { id = item.AssetID }) </button>
+                                    <p>Total ( @Html.DisplayFor(modelItem => item.Compteur))</p>
+                                    <p>Description:  @Html.DisplayFor(modelItem => item.Description)</p>
+                                </div>
+
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+
+        </div>
+        <br />
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-7 text-center border-primary">
+                <h2 class="font-weight-light text-primary">Assets Stored</h2>
+                <p class="color-black-opacity-5">Other Ressources assets</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12  block-13">
+                <div class="owl-carousel nonloop-block-13">
+                    @foreach (var item in Model.OrderBy(model => model.Name))
+                    {
+                        if (item.TypeAssetName == "Other Ressources")
+                        {
+                            <div class="d-block d-md-flex listing vertical">
+                                <div style="background-image: url('@Html.DisplayFor(modelItem => item.ThumbnailUrl)')" class="img d-block">
+                                    @Html.ActionLink(".", "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url }, new { @class = "img d-block" })
+                                </div>
+                                <div class="lh-content" style="background-color:aquamarine">
+                                    <span class="category">@Html.DisplayFor(modelItem => item.TypeAssetName)</span>
+                                    <a href="#" class="bookmark"><span class="icon-heart"></span></a>
+                                    <h3><a> @Html.ActionLink(item.Name, "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url })</a></h3>
+
                                     <address> @Html.ActionLink("AllDetails", "ALLDetails", new { id = item.AssetID })</address>
                                     <button>@Html.ActionLink("Views et Votes", "UpDateOfCompteurAsset", new { id = item.AssetID }) </button>
                                     <p>Total ( @Html.DisplayFor(modelItem => item.Compteur))</p>

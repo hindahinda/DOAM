@@ -51,6 +51,6 @@
 
         @Html.PagedListPager(Model, page => Url.Action("SearchAction", "Home",
 
-               new { page, recherche = ViewBag.recherche }))
+               new { page, recherche = ViewBag.recherche , categorie= ViewBag.categorie}))
     </div>
 </div>

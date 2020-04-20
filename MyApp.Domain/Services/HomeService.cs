@@ -35,8 +35,10 @@ namespace MyApp.Domain.Services
                 var total = from asset in db.Assets
                             join mime in db.MimeTypes
                               on asset.MimeTypeID equals mime.MimeTypeID
-                            where mime.AssetTypeID == AssetTypeID
-                            select new { mime.AssetTypeID };
+                            join tpye in db.AssetTypes
+                           on mime.AssetTypeID equals tpye.AssetTypeID
+                            where tpye.AssetTypeID == AssetTypeID
+                            select new { tpye.AssetTypeID };
 
                 foreach (var totalcomp in total)
                 {

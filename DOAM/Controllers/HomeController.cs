@@ -10,7 +10,7 @@ using MyApp.Application.Services;
 
 namespace DOAM.Controllers
 {
-    public enum eMovieCategories { Action, Drama, Comedy, Science_Fiction };
+   
     [RequireHttps]
     [Authorize]
     public class HomeController : Controller
@@ -70,30 +70,62 @@ namespace DOAM.Controllers
                 return View("DataNotFound");
             }
 
+            //condition pour faire tester si les deux condition sont remplis
+            else if (!string.IsNullOrEmpty(recherche) && !string.IsNullOrEmpty(categorie))
+            {
+
+                    ViewBag.recherche = recherche;
+                    ViewBag.categorie = categorie;
+                    var connectionToEs = ElasticSearchConnectionSettings.connection();
+
+                    var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
+                        (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
+                               .Size(50)
+                               .Query(q => q.MultiMatch(m => m.Query(recherche))
+
+                                       && q.Match(m => m.Field(f => f.TypeAssetName)
+                                           .Query(categorie))
+                           )
+                        );
+
+                             ListOfDataIndexed = (from hits in reponse.Hits
+                                                 select hits.Source).ToList();
+
+
+                                if (!ListOfDataIndexed.Any())
+                                {
+                                    return View("DataNotFound");
+                                }
+
+                else return View(ListOfDataIndexed.ToList().ToPagedList(pageNumber, pageSize));
+
+            }
+
             else if (!string.IsNullOrEmpty(recherche))
             {
 
-                ViewBag.recherche = recherche;
+                        ViewBag.recherche = recherche;
+                
 
-                var connectionToEs = ElasticSearchConnectionSettings.connection();
+                        var connectionToEs = ElasticSearchConnectionSettings.connection();
 
-                var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
-                    (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
-                           .Size(50)
-                           .Query(q => q.MultiMatch(m => m
-                                                    .Query(recherche))
+                        var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
+                            (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
+                                   .Size(50)
+                                   .Query(q => q.MultiMatch(m => m
+                                                            .Query(recherche))
 
-                       )
-                    );
+                               )
+                            );
 
-                ListOfDataIndexed = (from hits in reponse.Hits
-                                     select hits.Source).ToList();
+                        ListOfDataIndexed = (from hits in reponse.Hits
+                                             select hits.Source).ToList();
 
 
-                if (!ListOfDataIndexed.Any())
-                {
-                    return View("DataNotFound");
-                }
+                        if (!ListOfDataIndexed.Any())
+                        {
+                            return View("DataNotFound");
+                        }
 
                 else return View(ListOfDataIndexed.ToList().ToPagedList(pageNumber, pageSize));
 
@@ -101,33 +133,31 @@ namespace DOAM.Controllers
             else if (!string.IsNullOrEmpty(categorie))
             {
 
-                ViewBag.categorie = categorie;
+                        ViewBag.categorie = categorie;
 
-                var connectionToEs = ElasticSearchConnectionSettings.connection();
+                        var connectionToEs = ElasticSearchConnectionSettings.connection();
 
-                var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
-                    (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
-                           .Size(50)
-                           .Query(q => q.MultiMatch(m => m
-                                                     .Query(categorie))
-                      )
-                    );
+                        var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
+                            (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
+                                   .Size(50)
+                                   .Query(q => q
+                                  .Match(m => m
+                                      .Field(f => f.TypeAssetName)
+                                      .Query(categorie))
+                              )
+                            );
 
-                ListOfDataIndexed = (from hits in reponse.Hits
-                                     select hits.Source).ToList();
+                        ListOfDataIndexed = (from hits in reponse.Hits
+                                             select hits.Source).ToList();
 
-                if (!ListOfDataIndexed.Any())    //on verifie si la listet est vide et on retourne: data non trouvé
-                {
-                    return View("DataNotFound");
-                }
+                        if (!ListOfDataIndexed.Any())    //on verifie si la listet est vide et on retourne: data non trouvé
+                        {
+                            return View("DataNotFound");
+                        }
 
                 else return View(ListOfDataIndexed.ToList().ToPagedList(pageNumber, pageSize));
 
             }
-            //else if(SearchResult != null)
-            //{
-            //    ListOfDataIndexed = SearchResult;
-            //}
 
             return View(ListOfDataIndexed.ToList().ToPagedList(pageNumber, pageSize));
 

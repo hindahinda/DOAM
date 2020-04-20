@@ -22,7 +22,7 @@ namespace MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent
                 c => c.Map<AssetDocument>(m => m.AutoMap()));
 
 
-            using (MyApp.Infrastructure.DB.DOAMEntities db = new MyApp.Infrastructure.DB.DOAMEntities())
+            using (DB.DOAMEntities db = new MyApp.Infrastructure.DB.DOAMEntities())
             {
                 foreach (var asset in db.Assets)
                 {

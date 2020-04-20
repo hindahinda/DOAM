@@ -30,8 +30,8 @@ namespace MyApp.Application.Services
                     Description = asset.Description,
                     DateEncoded = asset.DateEncoded,
                     MimeTypeID = asset.MimeTypeID, 
-                    MimeType=MyApp.Domain.Services.MimeTypeService.GetMimeTypeName(asset.MimeTypeID),     
-                                 
+                    MimeType=MyApp.Domain.Services.MimeTypeService.GetMimeTypeName(asset.MimeTypeID),   
+                    //Compteur= asset.Compteur,                                    
             };
                 AssetListe.Add(vm);
             }

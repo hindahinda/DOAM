@@ -80,7 +80,7 @@ namespace DOAM.Areas.Administrateur.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AssetID,Name,Url,ThumbnailUrl,Description,DateEncoded,MimeTypeID")] Asset asset)
+        public ActionResult Create([Bind(Include = "AssetID,Name,Url,ThumbnailUrl,Description,DateEncoded,MimeTypeID,Compteur")] Asset asset)
       
         {
             if (ModelState.IsValid)
@@ -115,7 +115,7 @@ namespace DOAM.Areas.Administrateur.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken] 
-        public ActionResult Edit([Bind(Include = "AssetID,Name,Url,ThumbnailUrl,Description,DateEncoded,MimeTypeID")] Asset asset)
+        public ActionResult Edit([Bind(Include = "AssetID,Name,Url,ThumbnailUrl,Description,DateEncoded,MimeTypeID,Compteur")] Asset asset)
         {
             if (ModelState.IsValid)
             {
