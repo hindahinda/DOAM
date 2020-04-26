@@ -10,22 +10,27 @@ namespace MyApp.Application.Services.ServiceUsers
 {
     public class UserControllerService
     {
-        public static List<ViewModels.UsersViewModels.UserViewModels> GetListeUsers()
+        public static List<ViewModels.UsersViewModels.UserViewModels> GetUserRoleList() 
         {
-            List<ViewModels.UsersViewModels.UserViewModels> usersListe = new List<ViewModels.UsersViewModels.UserViewModels>();
-            var customers = Domain.UsersServices.UsersService.GetAspNetUsers();
-            foreach (var Customs in customers)
-            {
-                ViewModels.UsersViewModels.UserViewModels vm = new ViewModels.UsersViewModels.UserViewModels()
+           
+                List<ViewModels.UsersViewModels.UserViewModels> AssetListe = new List<ViewModels.UsersViewModels.UserViewModels>();
+                var assets = MyApp.Domain.Services.AfficherUserRoleServiceNames.Get();
+                foreach (var asset in assets)
                 {
-                    Email= Customs.Email,
-                    
-                    Role=MyApp.Domain.UsersServices.UserRolesService.GetAspNetRoles(), 
-                };
-               usersListe.Add(vm);
-            }
+                    ViewModels.UsersViewModels.UserViewModels vm = new ViewModels.UsersViewModels.UserViewModels()
+                    {
+                        Id = asset.Id,
+                        Email = asset.Email,
+                        UserName = asset.UserName,
+                        RoleName = asset.Name
 
-            return usersListe;
+                    };
+                    AssetListe.Add(vm);
+                }
+
+                return AssetListe;
+            
         }
+
     }
 }

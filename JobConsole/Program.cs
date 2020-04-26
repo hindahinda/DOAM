@@ -10,7 +10,7 @@ namespace JobConsole
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(string.Format("Total des Video : {0} ",MyApp.Domain.Services.AssetService.GetTotalAssetParTypeId(1)));
+            Console.WriteLine(string.Format("Total des Video : {0} ", MyApp.Domain.Services.AssetService.GetTotalAssetParTypeId(1)));
             Console.WriteLine(string.Format("Total des Audio : {0} ", MyApp.Domain.Services.AssetService.GetTotalAssetParTypeId(2)));
             Console.WriteLine(string.Format("Total des Image : {0} ", MyApp.Domain.Services.AssetService.GetTotalAssetParTypeId(3)));
             Console.WriteLine(string.Format("Total des Streamers : {0} ", MyApp.Domain.Services.AssetService.GetTotalAssetParTypeId(4)));
@@ -21,9 +21,15 @@ namespace JobConsole
             MyApp.Domain.Services.HomeService.UpDateAssetCompteur(1);
             //execution pour elastic search service methods
 
-            MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.CreateIndex(); 
+            MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.CreateIndex();
             Console.ReadLine();
 
+            //var item = MyApp.Domain.Services.AfficherUserRoleServiceNames.Get();
+            //foreach(var ite in item)
+            //{
+            //    Console.WriteLine(ite.Email +' '+ ite.Name);
+            //}
+            //Console.ReadLine();
         }
     }
 }

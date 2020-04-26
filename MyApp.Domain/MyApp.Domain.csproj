@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AfficherUserRoleServiceNames.cs" />
     <Compile Include="Services\AllDetailsAssetsService.cs" />
     <Compile Include="Services\AssetMetaDataService.cs" />
     <Compile Include="Services\AssetService.cs" />

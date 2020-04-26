@@ -50,5 +50,10 @@ namespace MyApp.Infrastructure.DB
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpDateAssetCompteur", assetIDParameter);
         }
+    
+        public virtual ObjectResult<SP_AfficherUserRoles_Result> SP_AfficherUserRoles()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_AfficherUserRoles_Result>("SP_AfficherUserRoles");
+        }
     }
 }

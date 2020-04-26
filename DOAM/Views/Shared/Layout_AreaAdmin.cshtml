@@ -50,10 +50,12 @@
                 Manage Users <i class="fa fa-caret-down"></i>
             </a>
             <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+                <a href="#" class="w3-bar-item w3-button">@Html.ActionLink("UserRole", "Index", "UserRoleLists")</a>
                 <a href="#" class="w3-bar-item w3-button">@Html.ActionLink("Users", "Index", "AspNetUsers")</a>
                 <a href="#" class="w3-bar-item w3-button">@Html.ActionLink("Roles", "Index", "AspNetRoles")</a>
                 <a href="#" class="w3-bar-item w3-button">@Html.ActionLink("UserLogin", "Index", "AspNetUserLogins")</a>
                 <a href="#" class="w3-bar-item w3-button">@Html.ActionLink("UserClaim", "Index", "AspNetUserClaims")</a>
+
             </div>
         </div>
     </nav>

@@ -308,6 +308,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_AfficherUserRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_UpDateAssetCompteur" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="assetID" Type="int" Mode="In" />
         </Function>
@@ -743,9 +744,16 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <FunctionImport Name="SP_UpDateAssetCompteur">
-            <Parameter Name="assetID" Mode="In" Type="Int32" />
+          <Parameter Name="assetID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SP_AfficherUserRoles" ReturnType="Collection(DOAMModel.SP_AfficherUserRoles_Result)" />
         </EntityContainer>
+        <ComplexType Name="SP_AfficherUserRoles_Result">
+          <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="256" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="256" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="256" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -904,6 +912,16 @@
             </EndProperty>
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="SP_UpDateAssetCompteur" FunctionName="DOAMModel.Store.SP_UpDateAssetCompteur" />
+          <FunctionImportMapping FunctionImportName="SP_AfficherUserRoles" FunctionName="DOAMModel.Store.SP_AfficherUserRoles">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DOAMModel.SP_AfficherUserRoles_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

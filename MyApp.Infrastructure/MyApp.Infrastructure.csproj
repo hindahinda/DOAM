@@ -120,6 +120,9 @@
     <Compile Include="DB\MimeType.cs">
       <DependentUpon>DAOMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DB\SP_AfficherUserRoles_Result.cs">
+      <DependentUpon>DAOMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DB\sysdiagram.cs">
       <DependentUpon>DAOMModel.tt</DependentUpon>
     </Compile>

@@ -189,6 +189,7 @@
     <Compile Include="Areas\Administrateur\ControllersUsers\AspNetUserClaimsController.cs" />
     <Compile Include="Areas\Administrateur\ControllersUsers\AspNetUserLoginsController.cs" />
     <Compile Include="Areas\Administrateur\ControllersUsers\AspNetUsersController.cs" />
+    <Compile Include="Areas\Administrateur\ControllersUsers\UserRoleListsController.cs" />
     <Compile Include="Areas\Administrateur\Controllers\AdminController.cs" />
     <Compile Include="Areas\Administrateur\Controllers\AssetMetaDatasController.cs" />
     <Compile Include="Areas\Administrateur\Controllers\AssetsController.cs" />
@@ -339,6 +340,7 @@
     <Content Include="Areas\Administrateur\Views\Admin\Index.cshtml" />
     <Content Include="Areas\Administrateur\Views\Assets\ALLDetails.cshtml" />
     <Content Include="Areas\Administrateur\Views\AssetMetaDatas\CreateMetaData.cshtml" />
+    <Content Include="Areas\Administrateur\Views\UserRoleLists\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
