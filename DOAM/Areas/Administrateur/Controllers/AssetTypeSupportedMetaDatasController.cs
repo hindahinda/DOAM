@@ -7,17 +7,18 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MyApp.Infrastructure.DB;
+using MyApp.Domain.Services;
 
 namespace DOAM.Areas.Administrateur.Controllers
 {
     public class AssetTypeSupportedMetaDatasController : Controller
     {
-        private DOAMEntities db = new DOAMEntities();
+       
 
         // GET: Administrateur/AssetTypeSupportedMetaDatas
         public ActionResult Index()
         {
-            var assetTypeSupportedMetaDatas = db.AssetTypeSupportedMetaDatas.Include(a => a.AssetType).Include(a => a.MetaData);
+            var assetTypeSupportedMetaDatas = AssetTypeSupportedMetaDatasService.Get();
             return View(assetTypeSupportedMetaDatas.ToList());
         }
 
@@ -28,19 +29,20 @@ namespace DOAM.Areas.Administrateur.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AssetTypeSupportedMetaData assetTypeSupportedMetaData = db.AssetTypeSupportedMetaDatas.Find(id);
+            var assetTypeSupportedMetaData = AssetTypeSupportedMetaDatasService.Get(id);
             if (assetTypeSupportedMetaData == null)
             {
                 return HttpNotFound();
             }
+           
             return View(assetTypeSupportedMetaData);
         }
 
         // GET: Administrateur/AssetTypeSupportedMetaDatas/Create
         public ActionResult Create()
         {
-            ViewBag.AssetTypeID = new SelectList(db.AssetTypes, "AssetTypeID", "TypeLabel");
-            ViewBag.MetaDataID = new SelectList(db.MetaDatas, "MetaDataID", "Title");
+            ViewBag.AssetTypeID = new SelectList(AssetTypeService.GetAssetTypes(), "AssetTypeID", "TypeLabel");
+            ViewBag.MetaDataID = new SelectList(MetaDataService.GetMetaDatas(), "MetaDataID", "Title");
             return View();
         }
 
@@ -53,13 +55,12 @@ namespace DOAM.Areas.Administrateur.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.AssetTypeSupportedMetaDatas.Add(assetTypeSupportedMetaData);
-                db.SaveChanges();
+                AssetTypeSupportedMetaDatasService.Create(assetTypeSupportedMetaData);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AssetTypeID = new SelectList(db.AssetTypes, "AssetTypeID", "TypeLabel", assetTypeSupportedMetaData.AssetTypeID);
-            ViewBag.MetaDataID = new SelectList(db.MetaDatas, "MetaDataID", "Title", assetTypeSupportedMetaData.MetaDataID);
+            ViewBag.AssetTypeID = new SelectList(AssetTypeService.GetAssetTypes(), "AssetTypeID", "TypeLabel", assetTypeSupportedMetaData.AssetTypeID);
+            ViewBag.MetaDataID = new SelectList(MetaDataService.GetMetaDatas(), "MetaDataID", "Title", assetTypeSupportedMetaData.MetaDataID);
             return View(assetTypeSupportedMetaData);
         }
 
@@ -70,13 +71,13 @@ namespace DOAM.Areas.Administrateur.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AssetTypeSupportedMetaData assetTypeSupportedMetaData = db.AssetTypeSupportedMetaDatas.Find(id);
+            var assetTypeSupportedMetaData = AssetTypeSupportedMetaDatasService.Get(id);
             if (assetTypeSupportedMetaData == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AssetTypeID = new SelectList(db.AssetTypes, "AssetTypeID", "TypeLabel", assetTypeSupportedMetaData.AssetTypeID);
-            ViewBag.MetaDataID = new SelectList(db.MetaDatas, "MetaDataID", "Title", assetTypeSupportedMetaData.MetaDataID);
+            ViewBag.AssetTypeID = new SelectList(AssetTypeService.GetAssetTypes(), "AssetTypeID", "TypeLabel", assetTypeSupportedMetaData.AssetTypeID);
+            ViewBag.MetaDataID = new SelectList(MetaDataService.GetMetaDatas(), "MetaDataID", "Title", assetTypeSupportedMetaData.MetaDataID);
             return View(assetTypeSupportedMetaData);
         }
 
@@ -89,12 +90,11 @@ namespace DOAM.Areas.Administrateur.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(assetTypeSupportedMetaData).State = EntityState.Modified;
-                db.SaveChanges();
+                AssetTypeSupportedMetaDatasService.Update(assetTypeSupportedMetaData);
                 return RedirectToAction("Index");
             }
-            ViewBag.AssetTypeID = new SelectList(db.AssetTypes, "AssetTypeID", "TypeLabel", assetTypeSupportedMetaData.AssetTypeID);
-            ViewBag.MetaDataID = new SelectList(db.MetaDatas, "MetaDataID", "Title", assetTypeSupportedMetaData.MetaDataID);
+            ViewBag.AssetTypeID = new SelectList(AssetTypeService.GetAssetTypes(), "AssetTypeID", "TypeLabel", assetTypeSupportedMetaData.AssetTypeID);
+            ViewBag.MetaDataID = new SelectList(MetaDataService.GetMetaDatas(), "MetaDataID", "Title", assetTypeSupportedMetaData.MetaDataID);
             return View(assetTypeSupportedMetaData);
         }
 
@@ -105,7 +105,7 @@ namespace DOAM.Areas.Administrateur.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AssetTypeSupportedMetaData assetTypeSupportedMetaData = db.AssetTypeSupportedMetaDatas.Find(id);
+           var assetTypeSupportedMetaData = AssetTypeSupportedMetaDatasService.Get(id);
             if (assetTypeSupportedMetaData == null)
             {
                 return HttpNotFound();
@@ -118,19 +118,11 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            AssetTypeSupportedMetaData assetTypeSupportedMetaData = db.AssetTypeSupportedMetaDatas.Find(id);
-            db.AssetTypeSupportedMetaDatas.Remove(assetTypeSupportedMetaData);
-            db.SaveChanges();
+           
+            AssetTypeSupportedMetaDatasService.Delete(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+      
     }
 }

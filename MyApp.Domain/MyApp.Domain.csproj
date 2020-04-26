@@ -55,6 +55,7 @@
     <Compile Include="Services\AssetService.cs" />
     <Compile Include="Services\AssetTagService.cs" />
     <Compile Include="Services\AssetTypeService.cs" />
+    <Compile Include="Services\AssetTypeSupportedMetaDatasService.cs" />
     <Compile Include="Services\HomeService.cs" />
     <Compile Include="Services\MetaDataGroupService.cs" />
     <Compile Include="Services\MetaDataService.cs" />

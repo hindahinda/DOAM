@@ -112,7 +112,7 @@ namespace DOAM.Controllers
                     var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
                         (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
                                .Size(50)
-                               .Query(q => q.MultiMatch(m => m.Query(recherche)) //première recherche
+                               .Query(q => q.MultiMatch(m => m.Query(recherche).Fuzziness(Fuzziness.EditDistance(5)))//première recherche
 
                                        && q.Match(m => m.Field(f => f.TypeAssetName) //filtrage de la prmiere recherche
                                            .Query(categorie))
@@ -140,16 +140,16 @@ namespace DOAM.Controllers
 
                         var connectionToEs = ElasticSearchConnectionSettings.connection();
 
-                        var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
-                            (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
-                                   .Size(50)
-                                   .Query(q => q.MultiMatch(m => m
-                                                            .Query(recherche))
+                var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
+                    (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
+                           .Size(50)
+                           .Query(q => q.MultiMatch(m => m
+                                                    .Query(recherche).Fuzziness(Fuzziness.EditDistance(5)))
 
-                               )
-                            );
+                       )
+                    );
 
-                        ListOfDataIndexed = (from hits in reponse.Hits
+                ListOfDataIndexed = (from hits in reponse.Hits
                                              select hits.Source).ToList();
 
 

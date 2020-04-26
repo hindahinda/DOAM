@@ -225,7 +225,7 @@
                             <div class="d-block d-md-flex listing vertical">
                                 <div style="background-image: url('@Html.DisplayFor(modelItem => item.ThumbnailUrl)')" class="img d-block">
 
-                                    @Html.ActionLink(".", "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url }, new { @class = "img d-block" })
+                                  @Html.ActionLink(".", "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url }, new { @class = "img d-block" }) 
                                 </div>
                                 <div class="lh-content" style="background-color:aquamarine">
                                     <span class="category">@Html.DisplayFor(modelItem => item.TypeAssetName)</span>
@@ -332,16 +332,16 @@
             </div>
         </div>
         <div class="row">
-            @foreach (var item in Model.OrderByDescending(model=>model.Compteur))
-             {
+            @foreach (var item in Model.OrderByDescending(model => model.Compteur))
+            {
                 var max = 3;
-                if (item.Compteur >= max )    
+                if (item.Compteur >= max)
                 {
                     <div class="col-md-6 mb-4 mb-lg-4 col-lg-4">
 
                         <div class="listing-item">
-                            <div class="listing-image">                             
-                                    <img src="@Html.DisplayFor(modelItem => item.ThumbnailUrl)" alt="Image" class="img-fluid">
+                            <div class="listing-image">
+                                <img src="@Html.DisplayFor(modelItem => item.ThumbnailUrl)" alt="Image" class="img-fluid">
                             </div>
                             <div class="listing-item-content">
                                 <a href="@Html.DisplayFor(modelItem => item.Url)" class="bookmark" data-toggle="tooltip" data-placement="left" title="Bookmark"><span class="icon-heart"></span></a>
@@ -350,7 +350,7 @@
                                 <span class="address">@Html.ActionLink("AllDetails", "ALLDetails", new { id = item.AssetID })</span>
                                 <button>@Html.ActionLink("Views and votes", "UpDateOfCompteurAsset", new { id = item.AssetID }) </button>
                                 <p style="color:floralwhite">Total ( @Html.DisplayFor(modelItem => item.Compteur) )</p>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -362,7 +362,7 @@
 
 </div>
 
-<div class="site-section bg-light">  
+<div class="site-section bg-light">
     <div class="container">
         <div class="row mb-5">
             <div class="col-md-7 text-left border-primary">
@@ -370,35 +370,36 @@
             </div>
         </div>
         <div class="row mt-5">
-            @foreach (var item in Model.OrderByDescending(model=>model.DateEncoded))
+            @foreach (var item in Model.OrderByDescending(model => model.DateEncoded))
             {
-                if ((item.DateEncoded > (DateTime.Today.AddDays(-40))) && (item.DateEncoded < DateTime.Now))
+                if ((item.DateEncoded > (DateTime.Today.AddDays(-30))) && (item.DateEncoded < DateTime.Now))
                 {
-                <div class="col-lg-6">
-               
-                    <div class="d-block d-md-flex listing " style="background-image:url('@Html.DisplayFor(modelItem=>item.ThumbnailUrl)')">
-                       
-                        <a style="background-image:url('@Html.DisplayFor(modelItem=>item.ThumbnailUrl)')" 
-                             @Html.ActionLink(".", "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url }, new { @class = "img d-block" })> </a>
-                        <div class="lh-content" style="background-color:aquamarine">
-                            <span class="category">@Html.DisplayFor(modelItem => item.TypeAssetName)</span>
-                            <a href="#" class="bookmark"><span class="icon-heart"></span></a>
-                            <h3><a> @Html.ActionLink(item.Name, "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url }, new { @class = "img d-block" })</a></h3>
-                            <address style="color:blue">Released date : @Html.DisplayFor(modelItem => item.DateEncoded)</address>
-                            <button>@Html.ActionLink("Votes", "UpDateOfCompteurAsset", new { id = item.AssetID }) </button>
-                            <button>@Html.ActionLink("AllDetails", "ALLDetails", new { id = item.AssetID }) </button>
+                    <div class="col-lg-6">
 
-                            <p style="color:blue">Total ( @Html.DisplayFor(modelItem => item.Compteur))</p>
-                            <p>Description:  @Html.DisplayFor(modelItem => item.Description)</p>
+                        <div class="d-block d-md-flex listing " style="background-image:url('@Html.DisplayFor(modelItem=>item.ThumbnailUrl)')">
 
+                            <a style="background-image:url('@Html.DisplayFor(modelItem=>item.ThumbnailUrl)')"
+                               @Html.ActionLink(".", "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url }, new { @class = "img d-block" })> </a>
+                            <div class="lh-content" style="background-color:aquamarine">
+                                <span class="category">@Html.DisplayFor(modelItem => item.TypeAssetName)</span>
+                                <a href="#" class="bookmark"><span class="icon-heart"></span></a>
+                                <h3><a> @Html.ActionLink(item.Name, "UpDateOfCompteurClick", new { id = item.AssetID, Urls = item.Url }, new { @class = "img d-block" })</a></h3>
+                                <address style="color:blue">Released date : @Html.DisplayFor(modelItem => item.DateEncoded)</address>
+                                <button>@Html.ActionLink("Votes", "UpDateOfCompteurAsset", new { id = item.AssetID }) </button>
+                                <button>@Html.ActionLink("AllDetails", "ALLDetails", new { id = item.AssetID }) </button>
+
+                                <p style="color:blue">Total ( @Html.DisplayFor(modelItem => item.Compteur))</p>
+                                <p>Description:  @Html.DisplayFor(modelItem => item.Description)</p>
+
+                            </div>
                         </div>
-                    </div>
 
-                </div>
+                    </div>
                 }
             }
 
-            </div>
+        </div>
 
     </div>
 </div>
+
