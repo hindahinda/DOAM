@@ -12,12 +12,13 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
 {
     public class AspNetUsersController : Controller
     {
-        private DOAMEntities db = new DOAMEntities();
+       
 
         // GET: Administrateur/AspNetUsers
         public ActionResult Index()
         {
-            return View(db.AspNetUsers.ToList());
+            var users = MyApp.Domain.UsersServices.UsersService.GetAspNetUsers();
+            return View(users.ToList());
         }
 
         // GET: Administrateur/AspNetUsers/Details/5
@@ -27,7 +28,7 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+            var aspNetUser = MyApp.Domain.UsersServices.UsersService.GetAspNetUserID(id);
             if (aspNetUser == null)
             {
                 return HttpNotFound();
@@ -48,14 +49,22 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AspNetUser aspNetUser)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.AspNetUsers.Add(aspNetUser);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            return View(aspNetUser);
+
+                if (ModelState.IsValid)
+                {
+                    MyApp.Domain.UsersServices.UsersService.AddAspNetUser(aspNetUser);
+                    return RedirectToAction("Index");
+                }
+
+                return View(aspNetUser);
+            }
+            catch(Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "AspNetUsers", "Create"));
+            }
         }
 
         // GET: Administrateur/AspNetUsers/Edit/5
@@ -65,7 +74,7 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+            var aspNetUser = MyApp.Domain.UsersServices.UsersService.GetAspNetUserID(id);
             if (aspNetUser == null)
             {
                 return HttpNotFound();
@@ -80,13 +89,21 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AspNetUser aspNetUser)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(aspNetUser).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
+
+                if (ModelState.IsValid)
+                {
+                    MyApp.Domain.UsersServices.UsersService.UpdateAspNetUser(aspNetUser);
+                    return RedirectToAction("Index");
+                }
+                return View(aspNetUser);
             }
-            return View(aspNetUser);
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "AspNetUsers", "Edit"));
+            }
         }
 
         // GET: Administrateur/AspNetUsers/Delete/5
@@ -96,7 +113,7 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+            var aspNetUser = MyApp.Domain.UsersServices.UsersService.GetAspNetUserID(id);
             if (aspNetUser == null)
             {
                 return HttpNotFound();
@@ -109,19 +126,10 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            AspNetUser aspNetUser = db.AspNetUsers.Find(id);
-            db.AspNetUsers.Remove(aspNetUser);
-            db.SaveChanges();
+            MyApp.Domain.UsersServices.UsersService.DeleteAspNetUser(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+       
     }
 }

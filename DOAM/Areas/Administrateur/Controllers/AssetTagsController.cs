@@ -75,15 +75,23 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "AssetTagID,TagID,AssetID")] AssetTag assetTag)
         {
-            if (ModelState.IsValid)
+            try
             {
-                MyApp.Domain.Services.AssetTagService.AddAssetTag(assetTag);
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    MyApp.Domain.Services.AssetTagService.AddAssetTag(assetTag);
+                    return RedirectToAction("Index");
+                }
 
-            ViewBag.AssetID = new SelectList(MyApp.Application.Services.AssetControllerService.GetListeAsset(), "AssetID", "Name", assetTag.AssetID);
-            ViewBag.TagID = new SelectList(MyApp.Application.Services.TagControllerService.GetListeTag(), "TagID", "Label", assetTag.TagID);
-            return View(assetTag);
+                ViewBag.AssetID = new SelectList(MyApp.Application.Services.AssetControllerService.GetListeAsset(), "AssetID", "Name", assetTag.AssetID);
+                ViewBag.TagID = new SelectList(MyApp.Application.Services.TagControllerService.GetListeTag(), "TagID", "Label", assetTag.TagID);
+                return View(assetTag);
+            }
+            catch(Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "AssetTags", "Create"));
+            }
+           
         }
 
         // GET: Administrateur/AssetTags/Edit/5
@@ -110,14 +118,21 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "AssetTagID,TagID,AssetID")] AssetTag assetTag)
         {
-            if (ModelState.IsValid)
+            try
             {
-                MyApp.Domain.Services.AssetTagService.UpdateAssetTag(assetTag);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    MyApp.Domain.Services.AssetTagService.UpdateAssetTag(assetTag);
+                    return RedirectToAction("Index");
+                }
+                ViewBag.AssetID = new SelectList(MyApp.Application.Services.AssetControllerService.GetListeAsset(), "AssetID", "Name", assetTag.AssetID);
+                ViewBag.TagID = new SelectList(MyApp.Application.Services.TagControllerService.GetListeTag(), "TagID", "Label", assetTag.TagID);
+                return View(assetTag);
             }
-            ViewBag.AssetID = new SelectList(MyApp.Application.Services.AssetControllerService.GetListeAsset(), "AssetID", "Name", assetTag.AssetID);
-            ViewBag.TagID = new SelectList(MyApp.Application.Services.TagControllerService.GetListeTag(), "TagID", "Label", assetTag.TagID);
-            return View(assetTag);
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "AssetTags", "Edit"));
+            }
         }
 
         // GET: Administrateur/AssetTags/Delete/5

@@ -49,15 +49,24 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "AssetTypeID,TypeLabel")] AssetType assetType)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //db.AssetTypes.Add(assetType);
-                //db.SaveChanges();
-                MyApp.Domain.Services.AssetTypeService.AddAssetType(assetType);
-                return RedirectToAction("Index");
-            }
 
-            return View(assetType);
+
+                if (ModelState.IsValid)
+                {
+                    //db.AssetTypes.Add(assetType);
+                    //db.SaveChanges();
+                    MyApp.Domain.Services.AssetTypeService.AddAssetType(assetType);
+                    return RedirectToAction("Index");
+                }
+
+                return View(assetType);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "AssetTypes", "Create"));
+            }
         }
 
         // GET: Administrateur/AssetTypes/Edit/5
@@ -82,14 +91,23 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "AssetTypeID,TypeLabel")] AssetType assetType)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //db.Entry(assetType).State = EntityState.Modified;
-                //db.SaveChanges();
-                MyApp.Domain.Services.AssetTypeService.UpdateAssetType(assetType);
-                return RedirectToAction("Index");
+
+
+                if (ModelState.IsValid)
+                {
+                    //db.Entry(assetType).State = EntityState.Modified;
+                    //db.SaveChanges();
+                    MyApp.Domain.Services.AssetTypeService.UpdateAssetType(assetType);
+                    return RedirectToAction("Index");
+                }
+                return View(assetType);
             }
-            return View(assetType);
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "AssetTypes", "Edit"));
+            }
         }
 
         // GET: Administrateur/AssetTypes/Delete/5

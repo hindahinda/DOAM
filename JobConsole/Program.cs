@@ -8,28 +8,16 @@ namespace JobConsole
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] args)  
         {
-            Console.WriteLine(string.Format("Total des Video : {0} ", MyApp.Domain.Services.AssetService.GetTotalAssetParTypeId(1)));
-            Console.WriteLine(string.Format("Total des Audio : {0} ", MyApp.Domain.Services.AssetService.GetTotalAssetParTypeId(2)));
-            Console.WriteLine(string.Format("Total des Image : {0} ", MyApp.Domain.Services.AssetService.GetTotalAssetParTypeId(3)));
-            Console.WriteLine(string.Format("Total des Streamers : {0} ", MyApp.Domain.Services.AssetService.GetTotalAssetParTypeId(4)));
-            Console.WriteLine(string.Format("Total des Autres ressource : {0} ", MyApp.Domain.Services.AssetService.GetTotalAssetParTypeId(5)));
-            Console.WriteLine(string.Format("Total des Assets : {0} ", MyApp.Domain.Services.AssetService.GetTotalAssets()));
-            Console.WriteLine(string.Format("Type of Asset : {0} ", MyApp.Domain.Services.AssetService.GetNameAssetParTypeId(40)));
-
-            MyApp.Domain.Services.HomeService.UpDateAssetCompteur(1);
-            //execution pour elastic search service methods
+         
+            
+            //lancement d'elastic search index pour actualiser les données
 
             MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.CreateIndex();
             Console.ReadLine();
 
-            //var item = MyApp.Domain.Services.AfficherUserRoleServiceNames.Get();
-            //foreach(var ite in item)
-            //{
-            //    Console.WriteLine(ite.Email +' '+ ite.Name);
-            //}
-            //Console.ReadLine();
+           
         }
     }
 }

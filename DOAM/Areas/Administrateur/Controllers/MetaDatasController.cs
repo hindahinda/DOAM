@@ -75,15 +75,24 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MetaDataID,Title,Description,MetaDataGroupID")] MetaData metaData)
         {
-            if (ModelState.IsValid)
+            try
             {
-               
-                MyApp.Domain.Services.MetaDataService.AddMetaData(metaData);
-                return RedirectToAction("Index");
-            }
 
-            ViewBag.MetaDataGroupID = new SelectList(MyApp.Domain.Services.MetaDataGroupService.GetMetaDatasGroups(), "MetaDataGroupID", "GroupName", metaData.MetaDataGroupID);
-            return View(metaData);
+
+                if (ModelState.IsValid)
+                {
+
+                    MyApp.Domain.Services.MetaDataService.AddMetaData(metaData);
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.MetaDataGroupID = new SelectList(MyApp.Domain.Services.MetaDataGroupService.GetMetaDatasGroups(), "MetaDataGroupID", "GroupName", metaData.MetaDataGroupID);
+                return View(metaData);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "MetaDatas", "Create"));
+            }
         }
 
         // GET: Administrateur/MetaDatas/Edit/5
@@ -109,14 +118,23 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MetaDataID,Title,Description,MetaDataGroupID")] MetaData metaData)
         {
-            if (ModelState.IsValid)
+            try
             {
-               
-                MyApp.Domain.Services.MetaDataService.UpdateMetaData(metaData); 
-                return RedirectToAction("Index");
+
+
+                if (ModelState.IsValid)
+                {
+
+                    MyApp.Domain.Services.MetaDataService.UpdateMetaData(metaData);
+                    return RedirectToAction("Index");
+                }
+                ViewBag.MetaDataGroupID = new SelectList(MyApp.Domain.Services.MetaDataGroupService.GetMetaDatasGroups(), "MetaDataGroupID", "GroupName", metaData.MetaDataGroupID);
+                return View(metaData);
             }
-            ViewBag.MetaDataGroupID = new SelectList(MyApp.Domain.Services.MetaDataGroupService.GetMetaDatasGroups(), "MetaDataGroupID", "GroupName", metaData.MetaDataGroupID);
-            return View(metaData);
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "MetaDatas", "Edit"));
+            }
         }
 
         // GET: Administrateur/MetaDatas/Delete/5

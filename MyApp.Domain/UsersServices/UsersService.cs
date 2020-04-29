@@ -19,7 +19,7 @@ namespace MyApp.Domain.UsersServices
             }
         }
 
-        public static AspNetUser GetAspNetUserID(int? AspNetUserID)
+        public static AspNetUser GetAspNetUserID(string AspNetUserID)
         {
             using (DOAMEntities db = new DOAMEntities())
             {
@@ -47,7 +47,7 @@ namespace MyApp.Domain.UsersServices
             }
         }
 
-        public static void DeleteAspNetUser(int AspNetUserID)
+        public static void DeleteAspNetUser(string AspNetUserID)
         {
             using (DOAMEntities db = new DOAMEntities())
             {

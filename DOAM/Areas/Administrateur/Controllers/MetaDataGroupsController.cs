@@ -49,15 +49,24 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MetaDataGroupID,GroupName,Description")] MetaDataGroup metaDataGroup)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //db.MetaDataGroups.Add(metaDataGroup);
-                //db.SaveChanges();
-                MyApp.Domain.Services.MetaDataGroupService.AddMetaDataGroup(metaDataGroup);
-                return RedirectToAction("Index");
-            }
 
-            return View(metaDataGroup);
+
+                if (ModelState.IsValid)
+                {
+                    //db.MetaDataGroups.Add(metaDataGroup);
+                    //db.SaveChanges();
+                    MyApp.Domain.Services.MetaDataGroupService.AddMetaDataGroup(metaDataGroup);
+                    return RedirectToAction("Index");
+                }
+
+                return View(metaDataGroup);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "MetaDataGroups", "Create"));
+            }
         }
 
         // GET: Administrateur/MetaDataGroups/Edit/5
@@ -82,14 +91,23 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MetaDataGroupID,GroupName,Description")] MetaDataGroup metaDataGroup)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //db.Entry(metaDataGroup).State = EntityState.Modified;
-                //db.SaveChanges();
-                MyApp.Domain.Services.MetaDataGroupService.UpdateMetaDataGroup(metaDataGroup);
-                return RedirectToAction("Index");
+
+
+                if (ModelState.IsValid)
+                {
+                    //db.Entry(metaDataGroup).State = EntityState.Modified;
+                    //db.SaveChanges();
+                    MyApp.Domain.Services.MetaDataGroupService.UpdateMetaDataGroup(metaDataGroup);
+                    return RedirectToAction("Index");
+                }
+                return View(metaDataGroup);
             }
-            return View(metaDataGroup);
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "MetaDataGroups", "Edit"));
+            }
         }
 
         // GET: Administrateur/MetaDataGroups/Delete/5

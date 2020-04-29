@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MyApp.Infrastructure.DB;
+using System.Data.Entity;
 
 namespace MyApp.Domain.UsersServices
 {
@@ -13,7 +14,7 @@ namespace MyApp.Domain.UsersServices
         {
             using (DOAMEntities db = new DOAMEntities())
             {
-                var aspNetUserClaim = db.AspNetUserClaims;
+                var aspNetUserClaim = db.AspNetUserClaims.Include(a => a.AspNetUser);
                 return aspNetUserClaim.ToList();
             }
         }

@@ -75,13 +75,21 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "TagID,Label,Status")] Tag tag)
         {
-            if (ModelState.IsValid)
+            try
             {
-                MyApp.Domain.Services.TagService.AddTag(tag);
-                return RedirectToAction("Index");
-            }
 
-            return View(tag);
+                if (ModelState.IsValid)
+                {
+                    MyApp.Domain.Services.TagService.AddTag(tag);
+                    return RedirectToAction("Index");
+                }
+
+                return View(tag);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "Tags", "Create"));
+            }
         }
 
         // GET: Administrateur/Tags/Edit/5
@@ -106,12 +114,21 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "TagID,Label,Status")] Tag tag)
         {
-            if (ModelState.IsValid)
+            try
             {
-                MyApp.Domain.Services.TagService.UpdateTag(tag);
-                return RedirectToAction("Index");
+
+
+                if (ModelState.IsValid)
+                {
+                    MyApp.Domain.Services.TagService.UpdateTag(tag);
+                    return RedirectToAction("Index");
+                }
+                return View(tag);
             }
-            return View(tag);
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "Tags", "Edit"));
+            }
         }
 
         // GET: Administrateur/Tags/Delete/5

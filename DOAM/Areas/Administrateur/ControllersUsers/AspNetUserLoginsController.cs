@@ -12,12 +12,12 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
 {
     public class AspNetUserLoginsController : Controller
     {
-        private DOAMEntities db = new DOAMEntities();
+       
 
         // GET: Administrateur/AspNetUserLogins
         public ActionResult Index()
         {
-            var aspNetUserLogins = db.AspNetUserLogins.Include(a => a.AspNetUser);
+            var aspNetUserLogins = MyApp.Domain.UsersServices.AspNetUserLoginsService.GetAspNetUserLogins();
             return View(aspNetUserLogins.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUserLogin aspNetUserLogin = db.AspNetUserLogins.Find(id);
+          var aspNetUserLogin = MyApp.Domain.UsersServices.AspNetUserLoginsService.GetAspNetUserLoginID(id);
             if (aspNetUserLogin == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,7 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         // GET: Administrateur/AspNetUserLogins/Create
         public ActionResult Create()
         {
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email");
+            ViewBag.UserId = new SelectList(MyApp.Domain.UsersServices.UsersService.GetAspNetUsers(), "Id", "Email");
             return View();
         }
 
@@ -52,12 +52,11 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         {
             if (ModelState.IsValid)
             {
-                db.AspNetUserLogins.Add(aspNetUserLogin);
-                db.SaveChanges();
+                MyApp.Domain.UsersServices.AspNetUserLoginsService.AddAspNetUserLogin(aspNetUserLogin);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", aspNetUserLogin.UserId);
+            ViewBag.UserId = new SelectList(MyApp.Domain.UsersServices.UsersService.GetAspNetUsers(), "Id", "Email", aspNetUserLogin.UserId);
             return View(aspNetUserLogin);
         }
 
@@ -68,12 +67,12 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUserLogin aspNetUserLogin = db.AspNetUserLogins.Find(id);
+            var aspNetUserLogin = MyApp.Domain.UsersServices.AspNetUserLoginsService.GetAspNetUserLoginID(id);
             if (aspNetUserLogin == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", aspNetUserLogin.UserId);
+            ViewBag.UserId = new SelectList(MyApp.Domain.UsersServices.UsersService.GetAspNetUsers(), "Id", "Email", aspNetUserLogin.UserId);
             return View(aspNetUserLogin);
         }
 
@@ -86,11 +85,10 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(aspNetUserLogin).State = EntityState.Modified;
-                db.SaveChanges();
+                MyApp.Domain.UsersServices.AspNetUserLoginsService.UpdateAspNetUserLogin(aspNetUserLogin);
                 return RedirectToAction("Index");
             }
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", aspNetUserLogin.UserId);
+            ViewBag.UserId = new SelectList(MyApp.Domain.UsersServices.UsersService.GetAspNetUsers(), "Id", "Email", aspNetUserLogin.UserId);
             return View(aspNetUserLogin);
         }
 
@@ -101,7 +99,7 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUserLogin aspNetUserLogin = db.AspNetUserLogins.Find(id);
+            var aspNetUserLogin = MyApp.Domain.UsersServices.AspNetUserLoginsService.GetAspNetUserLoginID(id);
             if (aspNetUserLogin == null)
             {
                 return HttpNotFound();
@@ -114,19 +112,10 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            AspNetUserLogin aspNetUserLogin = db.AspNetUserLogins.Find(id);
-            db.AspNetUserLogins.Remove(aspNetUserLogin);
-            db.SaveChanges();
+            MyApp.Domain.UsersServices.AspNetUserLoginsService.DeleteAspNetUserLogin(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+       
     }
 }

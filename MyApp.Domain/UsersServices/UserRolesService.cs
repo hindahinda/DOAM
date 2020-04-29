@@ -19,7 +19,7 @@ namespace MyApp.Domain.UsersServices
             }
         }
 
-        public static AspNetRole GetAspNetUserID(int? AspNetRoleID)
+        public static AspNetRole GetAspNetRoleID(string AspNetRoleID)
         {
             using (DOAMEntities db = new DOAMEntities())
             {
@@ -47,7 +47,7 @@ namespace MyApp.Domain.UsersServices
             }
         }
 
-        public static void DeleteAspNetRole(int AspNetRoleID)
+        public static void DeleteAspNetRole(string AspNetRoleID)
         {
             using (DOAMEntities db = new DOAMEntities())
             {

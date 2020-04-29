@@ -13,8 +13,17 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         // GET: Administrateur/UserRoleLists
         public ActionResult Index()
         {
-            var roles = MyApp.Application.Services.ServiceUsers.UserControllerService.GetUserRoleList();
-            return View(roles.ToList());
+            try
+            {
+
+
+                var roles = MyApp.Application.Services.ServiceUsers.UserControllerService.GetUserRoleList();
+                return View(roles.ToList());
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "Admin", "Index"));
+            }
         }
     }
 }

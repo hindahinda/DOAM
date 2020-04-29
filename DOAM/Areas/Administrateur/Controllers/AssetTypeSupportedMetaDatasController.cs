@@ -53,15 +53,24 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "AssetSupportedMetaDataID,AssetTypeID,MetaDataID")] AssetTypeSupportedMetaData assetTypeSupportedMetaData)
         {
-            if (ModelState.IsValid)
+            try
             {
-                AssetTypeSupportedMetaDatasService.Create(assetTypeSupportedMetaData);
-                return RedirectToAction("Index");
-            }
 
-            ViewBag.AssetTypeID = new SelectList(AssetTypeService.GetAssetTypes(), "AssetTypeID", "TypeLabel", assetTypeSupportedMetaData.AssetTypeID);
-            ViewBag.MetaDataID = new SelectList(MetaDataService.GetMetaDatas(), "MetaDataID", "Title", assetTypeSupportedMetaData.MetaDataID);
-            return View(assetTypeSupportedMetaData);
+
+                if (ModelState.IsValid)
+                {
+                    AssetTypeSupportedMetaDatasService.Create(assetTypeSupportedMetaData);
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.AssetTypeID = new SelectList(AssetTypeService.GetAssetTypes(), "AssetTypeID", "TypeLabel", assetTypeSupportedMetaData.AssetTypeID);
+                ViewBag.MetaDataID = new SelectList(MetaDataService.GetMetaDatas(), "MetaDataID", "Title", assetTypeSupportedMetaData.MetaDataID);
+                return View(assetTypeSupportedMetaData);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "AssetTypeSupportedMetaDatas", "Create"));
+            }
         }
 
         // GET: Administrateur/AssetTypeSupportedMetaDatas/Edit/5
@@ -88,14 +97,23 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "AssetSupportedMetaDataID,AssetTypeID,MetaDataID")] AssetTypeSupportedMetaData assetTypeSupportedMetaData)
         {
-            if (ModelState.IsValid)
+            try
             {
-                AssetTypeSupportedMetaDatasService.Update(assetTypeSupportedMetaData);
-                return RedirectToAction("Index");
+
+
+                if (ModelState.IsValid)
+                {
+                    AssetTypeSupportedMetaDatasService.Update(assetTypeSupportedMetaData);
+                    return RedirectToAction("Index");
+                }
+                ViewBag.AssetTypeID = new SelectList(AssetTypeService.GetAssetTypes(), "AssetTypeID", "TypeLabel", assetTypeSupportedMetaData.AssetTypeID);
+                ViewBag.MetaDataID = new SelectList(MetaDataService.GetMetaDatas(), "MetaDataID", "Title", assetTypeSupportedMetaData.MetaDataID);
+                return View(assetTypeSupportedMetaData);
             }
-            ViewBag.AssetTypeID = new SelectList(AssetTypeService.GetAssetTypes(), "AssetTypeID", "TypeLabel", assetTypeSupportedMetaData.AssetTypeID);
-            ViewBag.MetaDataID = new SelectList(MetaDataService.GetMetaDatas(), "MetaDataID", "Title", assetTypeSupportedMetaData.MetaDataID);
-            return View(assetTypeSupportedMetaData);
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "AssetTypeSupportedMetaDatas", "Edit"));
+            }
         }
 
         // GET: Administrateur/AssetTypeSupportedMetaDatas/Delete/5

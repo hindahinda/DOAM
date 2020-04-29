@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MyApp.Infrastructure.DB;
+using System.Data.Entity;
 
 namespace MyApp.Domain.UsersServices
 {
@@ -13,12 +14,12 @@ namespace MyApp.Domain.UsersServices
         {
             using (DOAMEntities db = new DOAMEntities())
             {
-                var aspNetUserLogin = db.AspNetUserLogins;
+                var aspNetUserLogin = db.AspNetUserLogins.Include(a => a.AspNetUser);
                 return aspNetUserLogin.ToList();
             }
         }
 
-        public static AspNetUserLogin GetAspNetUserLoginID(int? AspNetUserLoginID)
+        public static AspNetUserLogin GetAspNetUserLoginID(string AspNetUserLoginID)
         {
             using (DOAMEntities db = new DOAMEntities())
             {
@@ -46,7 +47,7 @@ namespace MyApp.Domain.UsersServices
             }
         }
 
-        public static void DeleteAspNetUserLogin(int AspNetUserLoginID)
+        public static void DeleteAspNetUserLogin(string AspNetUserLoginID)
         {
             using (DOAMEntities db = new DOAMEntities())
             {

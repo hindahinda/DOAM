@@ -72,15 +72,23 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "AssetMetaDataID,Value,MetaDataID,AssetID")] AssetMetaData assetMetaData)
         {
-            if (ModelState.IsValid)
+            try
+              {          
+                if (ModelState.IsValid)
+                {
+                    MyApp.Domain.Services.AssetMetaDataService.AddAssetMetaData(assetMetaData);
+                    return RedirectToAction("ALLDetails", "Assets", new { id = assetMetaData.AssetID });
+                }
+
+                ViewBag.AssetID = new SelectList(MyApp.Application.Services.AssetControllerService.GetListeAsset(), "AssetID", "Name", assetMetaData.AssetID);
+                ViewBag.MetaDataID = new SelectList(MyApp.Application.Services.MetaDataControllerService.GetListeMetaData(), "MetaDataID", "Title", assetMetaData.MetaDataID);
+                return View(assetMetaData);
+              }
+            catch(Exception ex)
             {
-                MyApp.Domain.Services.AssetMetaDataService.AddAssetMetaData(assetMetaData);
-                return RedirectToAction("ALLDetails", "Assets", new { id = assetMetaData.AssetID });
+                return View("Error", new HandleErrorInfo(ex, "AssetMetaDatas", "Create"));
             }
 
-            ViewBag.AssetID = new SelectList(MyApp.Application.Services.AssetControllerService.GetListeAsset(), "AssetID", "Name", assetMetaData.AssetID);
-            ViewBag.MetaDataID = new SelectList(MyApp.Application.Services.MetaDataControllerService.GetListeMetaData(), "MetaDataID", "Title", assetMetaData.MetaDataID);
-            return View(assetMetaData);
         }
 
         // GET: Administrateur/AssetMetaDatas/Edit/5
@@ -107,14 +115,22 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "AssetMetaDataID,Value,MetaDataID,AssetID")] AssetMetaData assetMetaData)
         {
-            if (ModelState.IsValid)
+            try
             {
-                MyApp.Domain.Services.AssetMetaDataService.UpdateAssetMetaData(assetMetaData);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    MyApp.Domain.Services.AssetMetaDataService.UpdateAssetMetaData(assetMetaData);
+                    return RedirectToAction("Index");
+                }
+                ViewBag.AssetID = new SelectList(MyApp.Application.Services.AssetControllerService.GetListeAsset(), "AssetID", "Name", assetMetaData.AssetID);
+                ViewBag.MetaDataID = new SelectList(MyApp.Application.Services.MetaDataControllerService.GetListeMetaData(), "MetaDataID", "Title", assetMetaData.MetaDataID);
+                return View(assetMetaData);
             }
-            ViewBag.AssetID = new SelectList(MyApp.Application.Services.AssetControllerService.GetListeAsset(), "AssetID", "Name", assetMetaData.AssetID);
-            ViewBag.MetaDataID = new SelectList(MyApp.Application.Services.MetaDataControllerService.GetListeMetaData(), "MetaDataID", "Title", assetMetaData.MetaDataID);
-            return View(assetMetaData);
+            catch(Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "AssetMetaDatas", "Edit"));
+            }
+           
         }
 
         // GET: Administrateur/AssetMetaDatas/Delete/5

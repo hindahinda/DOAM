@@ -200,7 +200,6 @@
     <Compile Include="Areas\Administrateur\Controllers\MetaDatasController.cs" />
     <Compile Include="Areas\Administrateur\Controllers\MimeTypesController.cs" />
     <Compile Include="Areas\Administrateur\Controllers\TagsController.cs" />
-    <Compile Include="Areas\Administrateur\Controllers\UsersController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />

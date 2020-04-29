@@ -70,14 +70,23 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MimeTypeID,Mime,AssetTypeID")] MimeType mimeType)
         {
-            if (ModelState.IsValid)
+            try
             {
-                MyApp.Domain.Services.MimeTypeService.AddMimeType(mimeType);
-                return RedirectToAction("Index");
-            }
 
-            ViewBag.AssetTypeID = new SelectList(MyApp.Domain.Services.AssetTypeService.GetAssetTypes(), "AssetTypeID", "TypeLabel", mimeType.AssetTypeID);
-            return View(mimeType);
+
+                if (ModelState.IsValid)
+                {
+                    MyApp.Domain.Services.MimeTypeService.AddMimeType(mimeType);
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.AssetTypeID = new SelectList(MyApp.Domain.Services.AssetTypeService.GetAssetTypes(), "AssetTypeID", "TypeLabel", mimeType.AssetTypeID);
+                return View(mimeType);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "MimeTypes", "Create"));
+            }
         }
 
         // GET: Administrateur/MimeTypes/Edit/5
@@ -103,13 +112,22 @@ namespace DOAM.Areas.Administrateur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MimeTypeID,Mime,AssetTypeID")] MimeType mimeType)
         {
-            if (ModelState.IsValid)
+            try
             {
-                MyApp.Domain.Services.MimeTypeService.UpdateMimeType(mimeType);
-                return RedirectToAction("Index");
+
+
+                if (ModelState.IsValid)
+                {
+                    MyApp.Domain.Services.MimeTypeService.UpdateMimeType(mimeType);
+                    return RedirectToAction("Index");
+                }
+                ViewBag.AssetTypeID = new SelectList(MyApp.Domain.Services.AssetTypeService.GetAssetTypes(), "AssetTypeID", "TypeLabel", mimeType.AssetTypeID);
+                return View(mimeType);
             }
-            ViewBag.AssetTypeID = new SelectList(MyApp.Domain.Services.AssetTypeService.GetAssetTypes(), "AssetTypeID", "TypeLabel", mimeType.AssetTypeID);
-            return View(mimeType);
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "MimeTypes", "Edit"));
+            }
         }
 
         // GET: Administrateur/MimeTypes/Delete/5

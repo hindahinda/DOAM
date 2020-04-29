@@ -12,12 +12,12 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
 {
     public class AspNetUserClaimsController : Controller
     {
-        private DOAMEntities db = new DOAMEntities();
+      
 
         // GET: Administrateur/AspNetUserClaims
         public ActionResult Index()
         {
-            var aspNetUserClaims = db.AspNetUserClaims.Include(a => a.AspNetUser);
+            var aspNetUserClaims = MyApp.Domain.UsersServices.UserClaims.GetAspNetUsersClaims();
             return View(aspNetUserClaims.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUserClaim aspNetUserClaim = db.AspNetUserClaims.Find(id);
+            var aspNetUserClaim = MyApp.Domain.UsersServices.UserClaims.GetAspNetUserClaimID(id);
             if (aspNetUserClaim == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,7 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         // GET: Administrateur/AspNetUserClaims/Create
         public ActionResult Create()
         {
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email");
+            ViewBag.UserId = new SelectList(MyApp.Domain.UsersServices.UsersService.GetAspNetUsers(), "Id", "Email");
             return View();
         }
 
@@ -52,12 +52,11 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         {
             if (ModelState.IsValid)
             {
-                db.AspNetUserClaims.Add(aspNetUserClaim);
-                db.SaveChanges();
+                MyApp.Domain.UsersServices.UserClaims.AddAspNetUserClaim(aspNetUserClaim);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", aspNetUserClaim.UserId);
+            ViewBag.UserId = new SelectList(MyApp.Domain.UsersServices.UsersService.GetAspNetUsers(), "Id", "Email", aspNetUserClaim.UserId);
             return View(aspNetUserClaim);
         }
 
@@ -68,12 +67,12 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUserClaim aspNetUserClaim = db.AspNetUserClaims.Find(id);
+           var aspNetUserClaim =MyApp.Domain.UsersServices.UserClaims.GetAspNetUserClaimID(id);
             if (aspNetUserClaim == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", aspNetUserClaim.UserId);
+            ViewBag.UserId = new SelectList(MyApp.Domain.UsersServices.UsersService.GetAspNetUsers(), "Id", "Email", aspNetUserClaim.UserId);
             return View(aspNetUserClaim);
         }
 
@@ -86,11 +85,10 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(aspNetUserClaim).State = EntityState.Modified;
-                db.SaveChanges();
+                MyApp.Domain.UsersServices.UserClaims.UpdateAspNetUserClaim(aspNetUserClaim);
                 return RedirectToAction("Index");
             }
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", aspNetUserClaim.UserId);
+            ViewBag.UserId = new SelectList(MyApp.Domain.UsersServices.UsersService.GetAspNetUsers(), "Id", "Email", aspNetUserClaim.UserId);
             return View(aspNetUserClaim);
         }
 
@@ -101,7 +99,7 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetUserClaim aspNetUserClaim = db.AspNetUserClaims.Find(id);
+            var aspNetUserClaim = MyApp.Domain.UsersServices.UserClaims.GetAspNetUserClaimID(id);
             if (aspNetUserClaim == null)
             {
                 return HttpNotFound();
@@ -114,19 +112,10 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            AspNetUserClaim aspNetUserClaim = db.AspNetUserClaims.Find(id);
-            db.AspNetUserClaims.Remove(aspNetUserClaim);
-            db.SaveChanges();
+            MyApp.Domain.UsersServices.UserClaims.DeleteAspNetUserClaim(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+       
     }
 }

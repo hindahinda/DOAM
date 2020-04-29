@@ -53,6 +53,7 @@ namespace DOAM.Areas.Administrateur.Controllers
         // GET: Administrateur/Assets/Details/5
         public ActionResult Details(int? id)
         {
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -83,15 +84,24 @@ namespace DOAM.Areas.Administrateur.Controllers
         public ActionResult Create([Bind(Include = "AssetID,Name,Url,ThumbnailUrl,Description,DateEncoded,MimeTypeID,Compteur")] Asset asset)
       
         {
-            if (ModelState.IsValid)
+            try
             {
-              
-                MyApp.Domain.Services.AssetService.AddAsset(asset);
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
 
-            ViewBag.MimeTypeID = new SelectList(MimeTypeControllerService.GetListeMimeType(), "MimeTypeID", "Mime", asset.MimeTypeID);
-            return View(asset);
+                    MyApp.Domain.Services.AssetService.AddAsset(asset);
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.MimeTypeID = new SelectList(MimeTypeControllerService.GetListeMimeType(), "MimeTypeID", "Mime", asset.MimeTypeID);
+                return View(asset);
+
+            }
+            catch(Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "Assets", "Create"));
+            }
+           
         }
 
         // GET: Administrateur/Assets/Edit/5
@@ -114,17 +124,24 @@ namespace DOAM.Areas.Administrateur.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken] 
+        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "AssetID,Name,Url,ThumbnailUrl,Description,DateEncoded,MimeTypeID,Compteur")] Asset asset)
         {
-            if (ModelState.IsValid)
+            try
             {
-             
-                MyApp.Domain.Services.AssetService.UpdateAsset(asset);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+
+                    MyApp.Domain.Services.AssetService.UpdateAsset(asset);
+                    return RedirectToAction("Index");
+                }
+                ViewBag.MimeTypeID = new SelectList(MimeTypeControllerService.GetListeMimeType(), "MimeTypeID", "Mime", asset.MimeTypeID);
+                return View(asset);
             }
-            ViewBag.MimeTypeID = new SelectList(MimeTypeControllerService.GetListeMimeType(), "MimeTypeID", "Mime", asset.MimeTypeID);
-            return View(asset);
+            catch(Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "Assets", "Edit"));
+            }
         }
 
         // GET: Administrateur/Assets/Delete/5

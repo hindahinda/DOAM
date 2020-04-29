@@ -21,10 +21,16 @@ namespace DOAM.Controllers
         /// <returns>Home view </returns>
         public ActionResult Index()
         {
-            
-            
-            var asset = MyApp.Application.Services.HomeControllerService.GetHomeAssetsListe();
-            return View(asset);
+            try
+            {
+                var asset = MyApp.Application.Services.HomeControllerService.GetHomeAssetsListe();
+                return View(asset);
+            }
+            catch (Exception ex)
+            {
+                return View("SearchAction2", new HandleErrorInfo(ex, "Home", "Index"));
+            }
+                     
         }
 
         /// <summary>
@@ -72,11 +78,16 @@ namespace DOAM.Controllers
         /// <returns> et diriger vers le link de l'ulrs </returns>
         public ActionResult UpDateOfCompteurClick(int id, string Urls)
         {
+            try
+            {
+                MyApp.Domain.Services.HomeService.UpDateAssetCompteur(id);
 
-            MyApp.Domain.Services.HomeService.UpDateAssetCompteur(id);
-
-              return Redirect(Urls); 
-
+                return Redirect(Urls);
+            }
+            catch(Exception ex)
+            {
+                return View("SearchAction2", new HandleErrorInfo(ex, "Home", "Index"));
+            }
         }
         //[HttpPost]
         /// <summary>
@@ -87,111 +98,146 @@ namespace DOAM.Controllers
         /// <param name="currentFilter"></param>
         /// <param name="page"></param>
         /// <returns>la liste des élément trouvées </returns>
-        public ActionResult SearchAction(string recherche, string categorie, string currentFilter, int? page)
+        public ActionResult SearchAction(string recherche, string categorie, string motClé, int? page)
         {
-
-            var ListOfDataIndexed = new List<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>();
-            int pageSize = 6;
-            int pageNumber = (page ?? 1);
-            //on test si les schamps de rechercher sont vides
-            if (string.IsNullOrEmpty(recherche) && string.IsNullOrEmpty(categorie) )
+            try
             {
+                MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.CreateIndex();
+                var connectionToEs = ElasticSearchConnectionSettings.connection();
 
-                return View("DataNotFound");
-            }
 
-            //au cas ou les deux champs ne sont pas null 
-            else if (!string.IsNullOrEmpty(recherche) && !string.IsNullOrEmpty(categorie))
-            {
+                var ListOfDataIndexed = new List<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>();
+                int pageSize = 6;
+                int pageNumber = (page ?? 1);
+                //on test si les schamps de rechercher sont vides
+                if (string.IsNullOrEmpty(recherche) && string.IsNullOrEmpty(categorie) && string.IsNullOrEmpty(motClé))
+                {
+
+                    return View("DataNotFound");
+                }
+
+                //au cas ou les deux champs ne sont pas null 
+                else if (!string.IsNullOrEmpty(recherche) && !string.IsNullOrEmpty(categorie))
+                {
 
                     ViewBag.recherche = recherche;
                     ViewBag.categorie = categorie;
-                //on execute la connection pour élastic search 
-                    var connectionToEs = ElasticSearchConnectionSettings.connection();
+                    //on execute la connection pour élastic search 
 
                     var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
                         (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
                                .Size(50)
-                               .Query(q => q.MultiMatch(m => m.Query(recherche).Fuzziness(Fuzziness.EditDistance(5)))//première recherche
+                               .Query(q => q.MultiMatch(m => m.Query(recherche).Fuzziness(Fuzziness.Auto))//première recherche
 
                                        && q.Match(m => m.Field(f => f.TypeAssetName) //filtrage de la prmiere recherche
                                            .Query(categorie))
                            )
                         );
 
-                             ListOfDataIndexed = (from hits in reponse.Hits
-                                                 select hits.Source).ToList();
+                    ListOfDataIndexed = (from hits in reponse.Hits
+                                         select hits.Source).ToList();
 
 
-                                if (!ListOfDataIndexed.Any())
-                                {
-                                    return View("DataNotFound");
-                                }
+                    if (!ListOfDataIndexed.Any())
+                    {
+                        return View("DataNotFound");
+                    }
 
-                else return View(ListOfDataIndexed.ToList().ToPagedList(pageNumber, pageSize));
+                    else return View(ListOfDataIndexed.ToList().ToPagedList(pageNumber, pageSize));
 
+                }
+                //au cas ou on fais la recherche sur un seul champs avec le système de fuzinness auto
+                //Generates an edit distance based on the length of the term.
+                //Low and high distance arguments may be optionally provided AUTO:[low],[high]
+                // par défaut it takes [3 , 6]
+                else if (!string.IsNullOrEmpty(recherche))
+                {
+
+                    ViewBag.recherche = recherche;
+
+                    var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
+                        (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
+                               .Size(50)
+                               .Query(q => q.MultiMatch(m => m
+                                                        .Query(recherche).Fuzziness(Fuzziness.Auto))
+
+                           )
+                        );
+
+                    ListOfDataIndexed = (from hits in reponse.Hits
+                                         select hits.Source).ToList();
+
+
+                    if (!ListOfDataIndexed.Any())
+                    {
+                        return View("DataNotFound");
+                    }
+
+                    else return View(ListOfDataIndexed.ToList().ToPagedList(pageNumber, pageSize));
+
+                }
+                //faire une recherche sur base de type asset (vidéo, audio, image ...)
+                else if (!string.IsNullOrEmpty(categorie))
+                {
+
+                    ViewBag.categorie = categorie;
+
+                    var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
+                        (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
+                               .Size(50)
+                               .Query(q => q
+                              .Match(m => m
+                                  .Field(f => f.TypeAssetName)
+                                  .Query(categorie))
+                          )
+                        );
+
+                    ListOfDataIndexed = (from hits in reponse.Hits
+                                         select hits.Source).ToList();
+
+                    if (!ListOfDataIndexed.Any())    //on verifie si la listet est vide et on retourne: data non trouvé
+                    {
+                        return View("DataNotFound");
+                    }
+
+                    else return View(ListOfDataIndexed.ToList().ToPagedList(pageNumber, pageSize));
+
+                }
+
+                //faire un recherche par mot clé le système chercher le mot exact 
+                else if (!string.IsNullOrEmpty(motClé))
+                {
+
+                    ViewBag.motClé = motClé;
+
+                    var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
+                        (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
+                               .Size(50)
+                               .Query(q => q.MultiMatch(m => m
+                                                        .Query(motClé).Fuzziness(Fuzziness.EditDistance(0)))
+
+                           )
+                        );
+
+                    ListOfDataIndexed = (from hits in reponse.Hits
+                                         select hits.Source).ToList();
+
+
+                    if (!ListOfDataIndexed.Any())
+                    {
+                        return View("DataNotFound");
+                    }
+
+                    else return View(ListOfDataIndexed.ToList().ToPagedList(pageNumber, pageSize));
+
+                }
+
+                return View(ListOfDataIndexed.ToList().ToPagedList(pageNumber, pageSize));
             }
-            //au cas ou on fais la recherche sur un seul champs
-            else if (!string.IsNullOrEmpty(recherche))
+            catch(Exception ex)
             {
-
-                        ViewBag.recherche = recherche;
-                
-
-                        var connectionToEs = ElasticSearchConnectionSettings.connection();
-
-                var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
-                    (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
-                           .Size(50)
-                           .Query(q => q.MultiMatch(m => m
-                                                    .Query(recherche).Fuzziness(Fuzziness.EditDistance(5)))
-
-                       )
-                    );
-
-                ListOfDataIndexed = (from hits in reponse.Hits
-                                             select hits.Source).ToList();
-
-
-                        if (!ListOfDataIndexed.Any())
-                        {
-                            return View("DataNotFound");
-                        }
-
-                else return View(ListOfDataIndexed.ToList().ToPagedList(pageNumber, pageSize));
-
+                return View("SearchAction2", new HandleErrorInfo(ex, "Home", "Index"));
             }
-            else if (!string.IsNullOrEmpty(categorie))
-            {
-
-                        ViewBag.categorie = categorie;
-
-                        var connectionToEs = ElasticSearchConnectionSettings.connection();
-
-                        var reponse = connectionToEs.Search<MyApp.Infrastructure.ElasticSearch.IndexDocuments.AssetDocument>
-                            (s => s.Index(MyApp.Infrastructure.ElasticSearch.ElasticSearchServiceAgent.AssetSearchService.assetIndexName)
-                                   .Size(50)
-                                   .Query(q => q
-                                  .Match(m => m
-                                      .Field(f => f.TypeAssetName)
-                                      .Query(categorie))
-                              )
-                            );
-
-                        ListOfDataIndexed = (from hits in reponse.Hits
-                                             select hits.Source).ToList();
-
-                        if (!ListOfDataIndexed.Any())    //on verifie si la listet est vide et on retourne: data non trouvé
-                        {
-                            return View("DataNotFound");
-                        }
-
-                else return View(ListOfDataIndexed.ToList().ToPagedList(pageNumber, pageSize));
-
-            }
-
-            return View(ListOfDataIndexed.ToList().ToPagedList(pageNumber, pageSize));
-
         }
         /// <summary>
         /// pour mettre à jour les nombres de votes d'une asset
@@ -200,10 +246,18 @@ namespace DOAM.Controllers
         /// <returns></returns>
         public ActionResult UpDateOfCompteurAsset(int id)
         {
+            try
+            {
+                MyApp.Domain.Services.HomeService.UpDateAssetCompteur(id);
 
-            MyApp.Domain.Services.HomeService.UpDateAssetCompteur(id);
+                return RedirectToAction("Index");
+            }
+            catch(Exception ex)
+            {
+                return View("SearchAction2", new HandleErrorInfo(ex, "Home", "Index"));
+            }
 
-            return RedirectToAction("Index");
+           
         }
        
        

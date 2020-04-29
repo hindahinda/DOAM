@@ -12,12 +12,13 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
 {
     public class AspNetRolesController : Controller
     {
-        private DOAMEntities db = new DOAMEntities();
+       
 
         // GET: Administrateur/AspNetRoles
         public ActionResult Index()
         {
-            return View(db.AspNetRoles.ToList());
+            var userRole = MyApp.Domain.UsersServices.UserRolesService.GetAspNetRoles();
+            return View(userRole.ToList());
         }
 
         // GET: Administrateur/AspNetRoles/Details/5
@@ -27,7 +28,7 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetRole aspNetRole = db.AspNetRoles.Find(id);
+            var aspNetRole = MyApp.Domain.UsersServices.UserRolesService.GetAspNetRoleID(id);
             if (aspNetRole == null)
             {
                 return HttpNotFound();
@@ -50,8 +51,7 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         {
             if (ModelState.IsValid)
             {
-                db.AspNetRoles.Add(aspNetRole);
-                db.SaveChanges();
+                MyApp.Domain.UsersServices.UserRolesService.AddAspNetRole(aspNetRole);
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +65,7 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetRole aspNetRole = db.AspNetRoles.Find(id);
+            var aspNetRole = MyApp.Domain.UsersServices.UserRolesService.GetAspNetRoleID(id);
             if (aspNetRole == null)
             {
                 return HttpNotFound();
@@ -82,8 +82,7 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(aspNetRole).State = EntityState.Modified;
-                db.SaveChanges();
+                MyApp.Domain.UsersServices.UserRolesService.UpdateAspNetRole(aspNetRole);
                 return RedirectToAction("Index");
             }
             return View(aspNetRole);
@@ -96,7 +95,7 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AspNetRole aspNetRole = db.AspNetRoles.Find(id);
+            var aspNetRole = MyApp.Domain.UsersServices.UserRolesService.GetAspNetRoleID(id);
             if (aspNetRole == null)
             {
                 return HttpNotFound();
@@ -109,19 +108,10 @@ namespace DOAM.Areas.Administrateur.ControllersUsers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            AspNetRole aspNetRole = db.AspNetRoles.Find(id);
-            db.AspNetRoles.Remove(aspNetRole);
-            db.SaveChanges();
+            MyApp.Domain.UsersServices.UserRolesService.DeleteAspNetRole(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+       
     }
 }
